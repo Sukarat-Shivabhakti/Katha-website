@@ -25,8 +25,11 @@ def register_method(request):
         elif User.objects.filter(email=email).exists():
             errors['email'] = "This email is already registered."
 
+        # -> NEW: Password length validation added here <-
         if not password:
             errors['password'] = "Password is required."
+        elif len(password) < 8:
+            errors['password'] = "Password must be at least 8 characters long."
         
         if not confirm_password:
             errors['confirm_password'] = "Please confirm your password."
@@ -83,11 +86,3 @@ def logout_method(request):
     logout(request)
     messages.success(request, 'You have been logged out successfully.')
     return redirect('index')
-
-
-
-
-
-
-
-
