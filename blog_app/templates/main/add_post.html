@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Story | कथा.</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+
+    {% include "main/components/_navbar.html" %}
+
+    <main class="flex-grow py-16">
+        <div class="mx-auto max-w-3xl px-6 lg:px-8">
+            
+            <div class="mb-8">
+                <h1 class="text-4xl font-black tracking-tight text-black mb-2" style="font-family: 'Merriweather', serif;">Write a New Story</h1>
+                <p class="text-gray-500 font-bold uppercase tracking-widest text-sm">Share your thoughts with the world, {{user.username}}.</p>
+            </div>
+
+            {% if messages %}
+                <div class="mb-6">
+                    {% for message in messages %}
+                        <div class="p-4 rounded-lg text-sm font-bold border-2 
+                            {% if message.tags == 'error' %} bg-red-50 text-red-700 border-red-200 
+                            {% else %} bg-green-50 text-green-700 border-green-200 {% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="" enctype="multipart/form-data" class="space-y-6 bg-white p-8 rounded-2xl border border-black/10 shadow-sm">
+                {% csrf_token %}
+
+                <div>
+                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Title</label>
+                    <input type="text" name="title" required placeholder="Give your story a catchy title..."
+                        class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors text-lg" style="font-family: 'Merriweather', serif;">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Category</label>
+                    <select name="category" required class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors bg-white cursor-pointer appearance-none">
+                        <option value="" disabled selected>Select a category...</option>
+                        <option value="Study">Study</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Love">Love</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Creative">Creative</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <div class="p-4 border-2 border-dashed border-black/20 rounded-lg bg-[#F9F6F0]">
+                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Cover Image (Optional)</label>
+                    <input type="file" name="image" accept="image/*" 
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800 transition-colors cursor-pointer">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Story Content</label>
+                    <textarea name="content" rows="10" required placeholder="Start typing your story here..."
+                        class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors text-lg leading-relaxed"></textarea>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-black/10 items-center">
+                    <button type="submit" name="action" value="publish" class="w-full sm:w-auto rounded-lg bg-black px-8 py-3.5 text-base font-bold text-white shadow-sm hover:bg-gray-800 transition-colors text-center">
+                        Publish to Feed
+                    </button>
+                    
+                    <button type="submit" name="action" value="draft" class="w-full sm:w-auto rounded-lg border-2 border-black/20 bg-white px-8 py-3 text-base font-bold text-black hover:border-black transition-colors text-center">
+                        Save as Draft
+                    </button>
+                    
+                    <a href="{% url 'index' %}" class="w-full sm:w-auto sm:ml-auto rounded-lg px-8 py-3.5 text-base font-bold text-gray-500 hover:text-black hover:bg-black/5 transition-colors text-center">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+        </div>
+    </main>
+
+    {% include "main/components/__footer.html" %}
+</body>
+</html>

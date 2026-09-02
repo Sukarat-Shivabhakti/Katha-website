@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | कथा.</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+
+    {% include 'main/components/_navbar.html' %}
+
+    <main class="flex-grow py-16 sm:py-24">
+        <div class="mx-auto max-w-3xl px-6 lg:px-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12 border-b-2 border-black/10 pb-8">
+                <h1 class="text-4xl sm:text-6xl font-black text-black tracking-tight mb-4" style="font-family: 'Merriweather', serif;">
+                    Terms of Service
+                </h1>
+                <p class="text-gray-500 font-bold tracking-widest uppercase text-sm">
+                    Last Updated: June 2026
+                </p>
+            </div>
+
+            <!-- Content Document -->
+            <div class="prose prose-lg max-w-none text-gray-800 space-y-10 leading-relaxed" style="font-family: 'Merriweather', serif;">
+                
+                <section>
+                    <p>
+                        Welcome to <strong>कथा.</strong> By accessing or using our platform, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">1. User Accounts</h2>
+                    <p>To write and publish stories, you must register for an account. You are entirely responsible for maintaining the confidentiality of your password and for any activity that occurs under your account. You agree to notify us immediately of any unauthorized use of your account.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">2. User Content & Ownership</h2>
+                    <p>
+                        <strong>You own your stories.</strong> We do not claim ownership over the content you publish on Katha. However, by posting content, you grant us a non-exclusive, royalty-free license to display, format, and distribute your stories on this platform.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">3. Acceptable Use Policy</h2>
+                    <p>We want Katha to be a safe, creative environment. You agree NOT to use the platform to:</p>
+                    <ul class="list-disc pl-6 mt-4 space-y-2">
+                        <li>Publish illegal, hateful, discriminatory, or harassing content.</li>
+                        <li>Upload spam, malware, or unauthorized promotional material.</li>
+                        <li>Plagiarize or infringe upon the copyright or intellectual property of others.</li>
+                    </ul>
+                    <p class="mt-4">We reserve the right to remove any content that violates these rules without prior notice.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">4. Account Termination</h2>
+                    <p>
+                        We reserve the right to suspend or terminate your account at our sole discretion, at any time and for any reason, including but not limited to a violation of these Terms of Service.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">5. Disclaimer of Warranties</h2>
+                    <p>
+                        Katha is provided on an "AS IS" and "AS AVAILABLE" basis. We make no warranties that the platform will be uninterrupted, error-free, or completely secure. We are not liable for any lost data or drafts.
+                    </p>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Use your main footer -->
+    {% include "main/components/_footer.html" %}
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<article class="flex flex-col items-start justify-between group border border-black/10 rounded-2xl bg-white overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+    
+    <div class="w-full aspect-[16/9] border-b border-black/10 overflow-hidden relative bg-white">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+        {% else %}
+            <div class="w-full h-full flex items-center justify-center text-gray-300">
+                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+        {% endif %}
+        
+        <span class="absolute top-4 left-4 rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-black border border-black/10 shadow-sm">
+            {{ post.category }}
+        </span>
+    </div>
+
+    <div class="p-6 flex flex-col flex-grow w-full">
+        <div class="flex items-center gap-x-4 text-xs mb-3 text-gray-500 font-medium">
+            <time datetime="{{ post.created_at|date:'Y-m-d' }}">{{ post.created_at|date:"M d, Y" }}</time>
+        </div>
+
+        <div class="relative grow">
+            <h3 class="text-xl font-bold text-black group-hover:text-gray-600 transition-colors mb-3 leading-tight" style="font-family: 'Merriweather', serif;">
+                <a href="{% url 'full_article' post.id %}">
+                    <span class="absolute inset-0"></span>
+                    {{ post.title }}
+                </a>
+            </h3>
+            <p class="line-clamp-3 text-sm text-gray-600 leading-relaxed">{{ post.content|truncatewords:20 }}</p>
+        </div>
+
+        <div class="mt-6 flex items-center gap-x-3 pt-5 border-t border-black/5">
+            <div class="h-8 w-8 rounded-full bg-black flex items-center justify-center text-[#F9F6F0] font-bold text-sm shadow-sm">
+                {{ post.author.username|make_list|first|upper }}
+            </div>
+            <div class="text-sm">
+                <p class="font-bold text-black">{{ post.author.username }}</p>
+            </div>
+        </div>
+    </div>
+</article>

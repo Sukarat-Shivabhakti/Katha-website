@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | कथा.</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+
+    {% include 'main/components/_navbar.html' %}
+
+    <main class="flex-grow py-16 sm:py-24">
+        <div class="mx-auto max-w-3xl px-6 lg:px-8">
+            
+            <!-- Page Header -->
+            <div class="mb-12 border-b-2 border-black/10 pb-8">
+                <h1 class="text-4xl sm:text-6xl font-black text-black tracking-tight mb-4" style="font-family: 'Merriweather', serif;">
+                    Privacy Policy
+                </h1>
+                <p class="text-gray-500 font-bold tracking-widest uppercase text-sm">
+                    Last Updated: June 2026
+                </p>
+            </div>
+
+            <!-- Content Document -->
+            <div class="prose prose-lg max-w-none text-gray-800 space-y-10 leading-relaxed" style="font-family: 'Merriweather', serif;">
+                
+                <section>
+                    <p>
+                        Welcome to <strong>कथा.</strong> ("we," "our," or "us"). We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you visit our website and use our platform to read or publish stories.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">1. Information We Collect</h2>
+                    <p>We may collect personal information that you voluntarily provide to us when you register for the platform. This includes:</p>
+                    <ul class="list-disc pl-6 mt-4 space-y-2">
+                        <li><strong>Account Information:</strong> Your username, email address, and password when you create an account.</li>
+                        <li><strong>Profile Information:</strong> Any profile pictures or biographical information you choose to upload to your public profile.</li>
+                        <li><strong>User Content:</strong> The stories, articles, and posts you write and publish on our platform.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">2. How We Use Your Information</h2>
+                    <p>We use the information we collect primarily to provide, maintain, and improve our services. Specifically, we use it to:</p>
+                    <ul class="list-disc pl-6 mt-4 space-y-2">
+                        <li>Create and manage your user account.</li>
+                        <li>Display your author profile and published stories to the community.</li>
+                        <li>Ensure platform security and prevent unauthorized access.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">3. Cookies and Tracking</h2>
+                    <p>
+                        <strong>कथा.</strong> uses strictly necessary cookies (such as session cookies provided by Django) to keep you logged in and to secure your session. We do not currently use invasive third-party tracking or advertising cookies.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">4. Sharing Your Information</h2>
+                    <p>
+                        We do not sell, trade, or rent your personal identification information to others. Keep in mind that any stories or profile details you publish on the platform become public and can be viewed by anyone on the internet.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-black font-sans uppercase tracking-widest mb-4">5. Contact Us</h2>
+                    <p>
+                        If you have any questions about this Privacy Policy, please feel free to reach out to us through the <a href="{% url 'about' %}" class="text-black font-bold  decoration-2 underline-offset-4 hover:text-gray-600">About page</a>.
+                    </p>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Use your main footer -->
+    {% include "main/components/_footer.html" %}
+
+</body>
+</html>

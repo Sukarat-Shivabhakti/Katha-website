@@ -1,0 +1,20 @@
+# Security & Secrets
+.env
+
+# Local Database
+db.sqlite3
+
+# Virtual Environments
+myvenv/
+env/
+venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Node Modules (for Tailwind)
+node_modules/
+
+# User Uploaded Files (if you test image uploads locally)
+media/

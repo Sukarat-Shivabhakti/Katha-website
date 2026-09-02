@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | कथा.</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+
+    {% include 'main/components/_navbar.html' %}
+
+    <div class="bg-[#F9F6F0] py-12 sm:py-16 flex-grow">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            
+            <!-- Alert Messages -->
+            {% if messages %}
+                <div class="mb-10 mx-auto max-w-3xl lg:mx-0">
+                    {% for message in messages %}
+                        <div class="p-4 rounded-lg text-sm font-bold border-2
+                            {% if message.tags == 'error' %} bg-red-50 text-red-700 border-red-200
+                            {% else %} bg-green-50 text-green-700 border-green-200 {% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                
+                <!-- LOGGED IN UI -->
+                <div class="mb-16 border-b-2 border-black/10 pb-12">
+                    <h1 class="text-4xl sm:text-5xl font-black text-black mb-4 leading-tight" style="font-family: 'Merriweather', serif;">
+                        Welcome back, {{ user.username }}.
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-8 max-w-2xl">
+                        Your digital canvas is waiting. What new <span class="font-bold text-black font-serif">कथा.</span> will you share with the world today?
+                    </p>
+                    
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="{% url 'add_post' %}" class="rounded-lg bg-black px-8 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-gray-800 transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Write New Story
+                        </a>
+                        <a href="{% url 'profile' request.user.username %}" class="rounded-lg border-2 border-black/20 bg-white px-8 py-3.5 text-sm font-bold text-black hover:border-black transition-colors">
+                            View My Profile
+                        </a>
+                    </div>
+                </div>
+
+            {% else %}
+                
+                <!-- LOGGED OUT UI: Floating Aesthetic Text -->
+                <div class="mx-auto max-w-4xl lg:mx-0 mb-24 pt-12">
+                    
+                    <!-- Small Overline Text -->
+                    <div class="uppercase tracking-widest text-xs sm:text-sm font-bold text-gray-500 mb-6 flex items-center gap-4">
+                        <span class="w-12 h-1 bg-black block"></span>
+                        The Writer's Canvas
+                    </div>
+                    
+                    <!-- Giant Floating Headline -->
+                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-black leading-[1.1] mb-8" style="font-family: 'Merriweather', serif;">
+                        Where your thoughts <br class="hidden sm:block" /> become a 
+                        <span class="bg-black text-[#F9F6F0] px-4 py-1.5 inline-block ml-2 transform -rotate-3 mt-2 sm:mt-0 shadow-sm rounded-sm">
+                            कथा.
+                        </span>
+                    </h1>
+                    
+                    <p class="text-lg sm:text-xl text-gray-700 max-w-2xl leading-relaxed mb-10 font-medium">
+                        A minimalist, distraction-free space engineered for developers, thinkers, and storytellers to share their unfiltered ideas with the world.
+                    </p>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <a href="{% url 'register' %}" class="w-full sm:w-auto text-center rounded-lg bg-black text-[#F9F6F0] px-10 py-4 font-bold text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors duration-200">
+                            Start Writing
+                        </a>
+                        <a href="#feed" class="w-full sm:w-auto text-center rounded-lg px-10 py-4 font-bold text-sm uppercase tracking-widest border-2 border-black/20 text-gray-600 hover:border-black hover:text-black transition-colors duration-200">
+                            Explore Feed
+                        </a>
+                    </div>
+                </div>
+
+            {% endif %}
+
+            <!-- FEED TITLE & UI FILTERS -->
+            <div id="feed" class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-black pb-4">
+                <h3 class="text-xl font-black uppercase tracking-widest text-black shrink-0">
+                    {% if user.is_authenticated %}Community Feed{% else %}Latest Stories{% endif %}
+                </h3>
+                
+                <!-- ACTIVE UI FILTERS -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide w-full sm:w-auto">
+    
+                <a href="{% url 'index' %}?category=All{% if search_query %}&q={{ search_query }}{% endif %}" 
+                    class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                    {% if current_category == 'All' or not current_category %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    All
+                </a>
+
+                <a href="{% url 'index' %}?category=Study{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Study' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Study
+                </a>
+
+                <a href="{% url 'index' %}?category=Lifestyle{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Lifestyle' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Lifestyle
+                </a>
+
+                <a href="{% url 'index' %}?category=Love{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Love' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Love
+                </a>
+
+                <a href="{% url 'index' %}?category=Technology{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Technology' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Technology
+                </a>
+
+                <a href="{% url 'index' %}?category=Sports{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Sports' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Sports
+                </a>
+
+                <a href="{% url 'index' %}?category=Personal{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Personal' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Personal
+                </a>
+
+                <a href="{% url 'index' %}?category=Creative{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Creative' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Creative
+                </a>
+
+                <a href="{% url 'index' %}?category=Others{% if search_query %}&q={{ search_query }}{% endif %}" 
+                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                {% if current_category == 'Others' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    Others
+                </a>
+</div>
+            </div>
+
+            <!-- BLOG CARDS GRID -->
+            <div class="mx-auto grid max-w-2xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 lg:mx-0 lg:max-w-none">
+                
+                {% for post in posts %}
+                    {% include 'main/components/_blog_card.html' %}
+                {% empty %}
+                    
+                    <div class="col-span-full py-24 text-center border-2 border-dashed border-black/20 rounded-2xl bg-white/50">
+                        <div class="mx-auto h-16 w-16 mb-4 rounded-full bg-black/5 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <h3 class="mt-2 text-2xl font-black text-black" style="font-family: 'Merriweather', serif;">No posts yet</h3>
+                        <p class="mt-2 text-lg text-gray-600 mb-8 max-w-md mx-auto">The community feed is currently quiet. Be the very first to share something awesome.</p>
+                        
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'add_post' %}" class="inline-block rounded-lg bg-black px-8 py-3 text-base font-bold text-white shadow-sm hover:bg-gray-800 transition-colors">
+                                Start Writing
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}?next=/add-post/" class="inline-block rounded-lg bg-black px-8 py-3 text-base font-bold text-white shadow-sm hover:bg-gray-800 transition-colors">
+                                Login to Start Writing
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            </div> 
+            
+        </div>
+    </div>
+
+    {% if user.is_authenticated %}
+        {% include "main/components/__footer.html" %}
+    {% else %}
+        {% include "main/components/_footer.html" %}
+    {% endif %}
+
+</body>
+</html>
