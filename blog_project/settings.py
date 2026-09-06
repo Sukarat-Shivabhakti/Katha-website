@@ -100,7 +100,7 @@ DATABASES = {
 }
 
 # If DEBUG is False (Live Server), use the live database provided by Render
-if not DEBUG and os.getenv('DATABASE_URL'):
+if os.getenv('DATABASE_URL'):
     DATABASES['default'] = dj_database_url.config(
         default=os.getenv('DATABASE_URL')
     )
