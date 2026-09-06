@@ -14,8 +14,27 @@ load_dotenv()
 # ==========================================
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
-# Split the allowed hosts string into a list, ignoring empty strings
-ALLOWED_HOSTS = [host.strip() for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host.strip()]
+
+# 1. Explicitly trust the new custom domains and Render URL
+ALLOWED_HOSTS = [
+    'projectkatha.com',
+    'www.projectkatha.com',
+    'katha-nfwg.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
+
+# Keeping the ability to add extra hosts dynamically via the .env file, haha
+env_hosts = os.getenv("ALLOWED_HOSTS", "")
+ALLOWED_HOSTS.extend([host.strip() for host in env_hosts.split(",") if host.strip()])
+
+
+# 2. IT will ne req. by Django to process forms and logins safely on the new domain
+CSRF_TRUSTED_ORIGINS = [
+    'https://projectkatha.com',
+    'https://www.projectkatha.com',
+    'https://katha-nfwg.onrender.com',
+]
 
 
 # ==========================================
@@ -141,6 +160,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ==========================================
 # Force HTTPS and secure cookies only in production
 if not DEBUG:
+    # 3. Tell Django it is behind a proxy to prevent an infinite redirect loop
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
