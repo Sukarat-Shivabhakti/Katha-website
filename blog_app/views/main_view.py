@@ -96,11 +96,17 @@ def edit_post_method(request, id):
         post.category = request.POST.get('category')
         post.content = request.POST.get('content')
 
-        # 4. The Image Trick: Only update if a NEW image was uploaded
+        # 4. The Image Trick: Handle new uploads OR deletions
         new_image = request.FILES.get('image')
+        remove_image = request.POST.get('remove_image') # Checks if the box was ticked
+
         if new_image:
             post.image = new_image
+        elif remove_image == 'true':
+            post.image = None # This deletes the image from the post!
 
+
+            
         # 5. --- NEW DRAFT LOGIC ---
         action = request.POST.get('action')
         if action == 'publish':

@@ -1,23 +1,27 @@
-<article class="flex flex-col items-start justify-between group border border-black/10 rounded-2xl bg-white overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+<article class="h-fit flex flex-col items-start justify-between group border border-black/10 rounded-2xl bg-white overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
     
-    <div class="w-full aspect-[16/9] border-b border-black/10 overflow-hidden relative bg-white">
-        {% if post.image %}
+    {% if post.image %}
+        <!-- IMAGE SECTION: Only renders if an image was actually uploaded -->
+        <div class="w-full aspect-[16/9] border-b border-black/10 overflow-hidden relative bg-white shrink-0">
             <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
-        {% else %}
-            <div class="w-full h-full flex items-center justify-center text-gray-300">
-                <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                </svg>
-            </div>
-        {% endif %}
-        
-        <span class="absolute top-4 left-4 rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-black border border-black/10 shadow-sm">
-            {{ post.category }}
-        </span>
-    </div>
+            
+            <!-- Category Badge (Floating on Image) -->
+            <span class="absolute top-4 left-4 rounded-full bg-white/90 backdrop-blur-sm px-3 py-1 text-xs font-bold text-black border border-black/10 shadow-sm">
+                {{ post.category }}
+            </span>
+        </div>
+    {% endif %}
 
     <div class="p-6 flex flex-col flex-grow w-full">
-        <div class="flex items-center gap-x-4 text-xs mb-3 text-gray-500 font-medium">
+        <div class="flex items-center gap-x-3 text-xs mb-4 text-gray-500 font-medium">
+            
+            {% if not post.image %}
+                <!-- FALLBACK CATEGORY BADGE: Shows here if there is no image -->
+                <span class="rounded-full bg-black/5 px-3 py-1 font-bold text-black border border-black/10 shadow-sm">
+                    {{ post.category }}
+                </span>
+            {% endif %}
+            
             <time datetime="{{ post.created_at|date:'Y-m-d' }}">{{ post.created_at|date:"M d, Y" }}</time>
         </div>
 
@@ -31,13 +35,25 @@
             <p class="line-clamp-3 text-sm text-gray-600 leading-relaxed">{{ post.content|truncatewords:20 }}</p>
         </div>
 
-        <div class="mt-6 flex items-center gap-x-3 pt-5 border-t border-black/5">
-            <div class="h-8 w-8 rounded-full bg-black flex items-center justify-center text-[#F9F6F0] font-bold text-sm shadow-sm">
-                {{ post.author.username|make_list|first|upper }}
-            </div>
-            <div class="text-sm">
-                <p class="font-bold text-black">{{ post.author.username }}</p>
-            </div>
+        <div class="mt-6 pt-5 border-t border-black/5 w-full">
+            <!-- Clickable Author Link -->
+            <a href="{% url 'profile' post.author.username %}" class="flex items-center gap-x-3 relative z-10 group/author w-fit">
+                
+                <!-- Dynamic Profile Picture -->
+                <div class="h-8 w-8 rounded-full bg-black flex items-center justify-center text-[#F9F6F0] font-bold text-sm shadow-sm overflow-hidden border border-black/10 shrink-0">
+                    {% if post.author.profile.profile_picture %}
+                        <img src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.username }}" class="w-full h-full object-cover">
+                    {% else %}
+                        {{ post.author.username|make_list|first|upper }}
+                    {% endif %}
+                </div>
+                
+                <div class="text-sm">
+                    <p class="font-bold text-black group-hover/author:underline group-hover/author:text-gray-600 transition-colors">
+                        {{ post.author.username }}
+                    </p>
+                </div>
+            </a>
         </div>
     </div>
 </article>
