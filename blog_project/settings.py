@@ -147,14 +147,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Smart File Storage: Use Cloudinary in production, otherwise use local /media/ folder
-if not DEBUG or os.getenv('CLOUDINARY_CLOUD_NAME'):
+if not DEBUG or os.getenv('CLOUDINARY_URL'):
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
-        'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
-        'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
-    }
-
+    # Note: We removed the CLOUDINARY_STORAGE dictionary because the library 
+    # automatically detects your CLOUDINARY_URL environment variable!
 
 # ==========================================
 # DEFAULT PRIMARY KEY
