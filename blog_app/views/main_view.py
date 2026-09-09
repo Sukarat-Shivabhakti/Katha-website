@@ -4,6 +4,7 @@ from blog_app.models import Post
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
+from blog_app.forms import ProfileUpdateForm
 
 
 def index_method(request):
@@ -168,3 +169,21 @@ def privacy_method(request):
 #For terms of service 
 def terms_method(request):
     return render(request, 'main/pages/terms.html')
+
+
+@login_required
+def edit_profile(request):
+    # If the user hit the "Save" button
+    if request.method == 'POST':
+        # request.FILES is absolutely critical here for the image upload!
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been successfully updated!')
+            # Redirect back to their own profile page after saving
+            return redirect('profile', username=request.user.username) 
+    else:
+        # If they just visited the page, show the form pre-filled with their current info
+        form = ProfileUpdateForm(instance=request.user.profile)
+    
+    return render(request, 'main/edit_profile.html', {'form': form})

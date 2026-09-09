@@ -24,12 +24,12 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-# Keeping the ability to add extra hosts dynamically via the .env file, haha
+# Keeping the ability to add extra hosts dynamically via the .env file
 env_hosts = os.getenv("ALLOWED_HOSTS", "")
 ALLOWED_HOSTS.extend([host.strip() for host in env_hosts.split(",") if host.strip()])
 
 
-# 2. IT will ne req. by Django to process forms and logins safely on the new domain
+# 2. It will be req. by Django to process forms and logins safely on the new domain
 CSRF_TRUSTED_ORIGINS = [
     'https://projectkatha.com',
     'https://www.projectkatha.com',
@@ -146,7 +146,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# Smart File Storage: Use Cloudinary in production, otherwise use local /media/ folder
+if not DEBUG or os.getenv('CLOUDINARY_CLOUD_NAME'):
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
+        'API_KEY': os.getenv('CLOUDINARY_API_KEY'),
+        'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
+    }
 
 
 # ==========================================
@@ -160,7 +167,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # ==========================================
 # Force HTTPS and secure cookies only in production
 if not DEBUG:
-    # 3. Tell Django it is behind a proxy to prevent an infinite redirect loop
+    # Tell Django it is behind a proxy to prevent an infinite redirect loop
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     
     SECURE_SSL_REDIRECT = True
@@ -171,18 +178,14 @@ if not DEBUG:
     SECURE_HSTS_PRELOAD = True
 
 
-
 # ==========================================
 # SSL CERTIFICATE FIX FOR LOCAL WINDOWS DEV
 # ==========================================
-import os
 try:
     import certifi
     os.environ['SSL_CERT_FILE'] = certifi.where()
 except ImportError:
     pass
-
-
 
 
 # ==========================================

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | कथा.</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Custom styling to automatically polish Django form fields -->
+    <style>
+        .django-form-field input[type="text"],
+        .django-form-field input[type="email"],
+        .django-form-field input[type="url"],
+        .django-form-field input[type="password"],
+        .django-form-field textarea,
+        .django-form-field select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            background-color: #FAFAFA;
+            font-size: 0.95rem;
+            color: #000;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .django-form-field input[type="text"]:focus,
+        .django-form-field input[type="email"]:focus,
+        .django-form-field input[type="url"]:focus,
+        .django-form-field input[type="password"]:focus,
+        .django-form-field textarea:focus,
+        .django-form-field select:focus {
+            border-color: #000;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .django-form-field textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .django-form-field input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 2px dashed rgba(0, 0, 0, 0.2);
+            background-color: #FAFAFA;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .django-form-field input[type="file"]:hover {
+            border-color: #000;
+            background-color: #F3F4F6;
+        }
+    </style>
+</head>
+<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black antialiased">
+
+    {% include 'main/components/_navbar.html' %}
+
+    <main class="flex-grow py-12 md:py-16 px-4 sm:px-6 flex items-center justify-center">
+        <div class="w-full max-w-2xl mx-auto">
+            
+            <!-- Back Button -->
+            <a href="{% url 'profile' request.user.username %}" class="inline-flex items-center text-sm font-bold text-gray-600 hover:text-black mb-6 transition-colors gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Profile
+            </a>
+
+            <!-- Main Form Card -->
+            <div class="bg-white p-8 md:p-12 rounded-2xl border-2 border-black/10 shadow-xl">
+                
+                <!-- Form Header -->
+                <div class="border-b border-gray-100 pb-6 mb-8">
+                    <h1 class="text-3xl md:text-4xl font-black tracking-tight" style="font-family: 'Merriweather', serif;">
+                        Edit Your Profile
+                    </h1>
+                    <p class="text-gray-500 font-medium text-sm mt-2">
+                        Update your public writer persona and details on Project Katha.
+                    </p>
+                </div>
+
+                <!-- Non-Field Errors Alert -->
+                {% if form.non_field_errors %}
+                    <div class="p-4 mb-6 rounded-lg bg-red-50 border border-red-200 text-red-800 text-sm flex items-start gap-3">
+                        <svg class="w-5 h-5 text-red-500 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                        <div>{{ form.non_field_errors }}</div>
+                    </div>
+                {% endif %}
+
+                <!-- Form Body -->
+                <form method="POST" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div>
+                            <label class="block font-bold text-xs uppercase tracking-wider mb-2 text-gray-800">
+                                {{ field.label }}
+                            </label>
+
+                            <!-- Wrapped Field with custom CSS class applied -->
+                            <div class="django-form-field">
+                                {{ field }}
+                            </div>
+
+                            <!-- Field Help Text -->
+                            {% if field.help_text %}
+                                <p class="text-xs text-gray-500 mt-1.5">{{ field.help_text|safe }}</p>
+                            {% endif %}
+
+                            <!-- Field Errors -->
+                            {% if field.errors %}
+                                <p class="text-red-600 text-xs mt-1.5 font-semibold flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                    {{ field.errors.0 }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                    <!-- Form Action Buttons -->
+                    <div class="flex flex-col-reverse sm:flex-row items-center gap-3 pt-6 border-t border-gray-100">
+                        <a href="{% url 'profile' request.user.username %}" class="w-full sm:w-auto rounded-lg border-2 border-black/20 bg-white px-8 py-3.5 text-sm font-bold text-black hover:border-black transition-colors flex items-center justify-center">
+                            Cancel
+                        </a>
+                        <button type="submit" class="w-full sm:w-auto rounded-lg bg-black px-8 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-gray-800 transition-colors flex items-center justify-center">
+                            Save Changes
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    {% include "main/components/__footer.html" %}
+
+</body>
+</html>
