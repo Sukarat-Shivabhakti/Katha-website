@@ -8,18 +8,18 @@
     <link href="{% static 'src/styles.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+<body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include 'main/components/_navbar.html' %}
 
     <main class="flex-grow py-16 sm:py-24">
         <div class="mx-auto max-w-4xl px-6 lg:px-8">
             
-            <div class="mb-16 border-b-2 border-black/10 pb-12">
-                <h1 class="text-5xl sm:text-7xl font-black text-black tracking-tight mb-6" style="font-family: 'Merriweather', serif;">
-                    About <span class="bg-black text-[#F9F6F0] px-4 py-1 rounded-lg">कथा.</span>
+            <div class="mb-16 border-b-2 border-black/10 dark:border-white/10 pb-12 transition-colors duration-300">
+                <h1 class="text-5xl sm:text-7xl font-black text-black dark:text-white tracking-tight mb-6 transition-colors duration-300" style="font-family: 'Merriweather', serif;">
+                    About <span class="bg-black dark:bg-white text-[#F9F6F0] dark:text-black px-4 py-1 rounded-lg transition-colors duration-300">कथा.</span>
                 </h1>
-                <p class="text-xl text-gray-600 leading-relaxed max-w-2xl">
+                <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl transition-colors duration-300">
                     A digital canvas for thoughts, stories, and the journey of learning to build for the web.
                 </p>
             </div>
@@ -29,10 +29,10 @@
                 <div class="md:col-span-2 space-y-12">
                     
                     <section>
-                        <h2 class="text-2xl font-black uppercase tracking-widest mb-4 border-l-4 border-black pl-4">The Mission</h2>
-                        <div class="prose prose-lg text-gray-700 leading-relaxed space-y-4">
+                        <h2 class="text-2xl font-black uppercase tracking-widest mb-4 border-l-4 border-black dark:border-white pl-4 transition-colors duration-300">The Mission</h2>
+                        <div class="prose prose-lg text-gray-700 dark:text-gray-300 leading-relaxed space-y-4 transition-colors duration-300">
                             <p>
-                                I built <strong>कथा.</strong> (Katha) because I wanted a space that felt entirely my own. In a world of noisy social media feeds and endless scrolling, I wanted to create a quiet, minimalist corner of the internet where stories and ideas take center stage.
+                                I built <strong class="dark:text-white">कथा.</strong> (Katha) because I wanted a space that felt entirely my own. In a world of noisy social media feeds and endless scrolling, I wanted to create a quiet, minimalist corner of the internet where stories and ideas take center stage.
                             </p>
                             <p>
                                 This platform serves as both a personal digital diary and a technical playground. It is a live demonstration of my journey in full-stack development, built from scratch using Django, Python, and Tailwind CSS.
@@ -41,10 +41,10 @@
                     </section>
 
                     <section>
-                        <h2 class="text-2xl font-black uppercase tracking-widest mb-4 border-l-4 border-black pl-4">The Creator</h2>
-                        <div class="prose prose-lg text-gray-700 leading-relaxed space-y-4">
+                        <h2 class="text-2xl font-black uppercase tracking-widest mb-4 border-l-4 border-black dark:border-white pl-4 transition-colors duration-300">The Creator</h2>
+                        <div class="prose prose-lg text-gray-700 dark:text-gray-300 leading-relaxed space-y-4 transition-colors duration-300">
                             <p>
-                                Hello! My name is <strong>Sukarat Shivabhakti</strong>. I am a passionate developer and storyteller. When I am not writing code or debugging Django errors, you can usually find me playing video games, exploring new tech, or watching great movies.
+                                Hello! My name is <strong class="dark:text-white">Sukarat Shivabhakti</strong>. I am a passionate developer and storyteller. When I am not writing code or debugging Django errors, you can usually find me playing video games, exploring new tech, or watching great movies.
                             </p>
                             <p>
                                 This project is a reflection of my dedication to learning and building things that are not only functional but also beautifully designed.
@@ -56,23 +56,23 @@
 
                 <div class="space-y-8">
                     
-                    <div class="bg-white border-2 border-black/10 rounded-2xl p-6 shadow-sm">
+                    <div class="bg-white dark:bg-[#1a1a1a] border-2 border-black/10 dark:border-white/10 rounded-2xl p-6 shadow-sm transition-colors duration-300">
                         <h3 class="font-black text-lg uppercase tracking-widest mb-4">Let's Connect</h3>
-                        <ul class="space-y-4 text-sm font-bold text-gray-600">
+                        <ul class="space-y-4 text-sm font-bold text-gray-600 dark:text-gray-400">
                             <li>
-                                <a href="mailto:sukaratlite28@gmail.com" class="flex items-center gap-3 hover:text-black transition-colors">
+                                <a href="mailto:hello@projectkatha.com" class="flex items-center gap-3 hover:text-black dark:hover:text-white transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                    sukarat@katha.com
+                                    hello@projectkatha.com
                                 </a>
                             </li>
                             <li>
-                                <a href="https://github.com/Sukarat-Shivabhakti" target="_blank" class="flex items-center gap-3 hover:text-black transition-colors">
+                                <a href="https://github.com/Sukarat-Shivabhakti" target="_blank" class="flex items-center gap-3 hover:text-black dark:hover:text-white transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                                     My GitHub
                                 </a>
                             </li>
                             <li>
-                                <a href="https://www.linkedin.com/in/sukarat-shivabhakti-a7a362344/" target="_blank" class="flex items-center gap-3 hover:text-black transition-colors">
+                                <a href="https://www.linkedin.com/in/sukarat-shivabhakti-a7a362344/" target="_blank" class="flex items-center gap-3 hover:text-black dark:hover:text-white transition-colors">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
                                     Personal Portfolio
                                 </a>
@@ -80,13 +80,13 @@
                         </ul>
                     </div>
 
-                    <div class="bg-[#F9F6F0] border-2 border-dashed border-black/20 rounded-2xl p-6">
-                        <h3 class="font-black text-sm uppercase tracking-widest text-black mb-4">Built With</h3>
+                    <div class="bg-[#F9F6F0] dark:bg-[#121212] border-2 border-dashed border-black/20 dark:border-white/20 rounded-2xl p-6 transition-colors duration-300">
+                        <h3 class="font-black text-sm uppercase tracking-widest text-black dark:text-white mb-4 transition-colors duration-300">Built With</h3>
                         <div class="flex flex-wrap gap-2">
-                            <span class="text-xs font-bold bg-white border border-black/10 px-2 py-1 rounded">Django</span>
-                            <span class="text-xs font-bold bg-white border border-black/10 px-2 py-1 rounded">Python</span>
-                            <span class="text-xs font-bold bg-white border border-black/10 px-2 py-1 rounded">Tailwind CSS</span>
-                            <span class="text-xs font-bold bg-white border border-black/10 px-2 py-1 rounded">SQLite</span>
+                            <span class="text-xs font-bold bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 px-2 py-1 rounded transition-colors duration-300">Django</span>
+                            <span class="text-xs font-bold bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 px-2 py-1 rounded transition-colors duration-300">Python</span>
+                            <span class="text-xs font-bold bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 px-2 py-1 rounded transition-colors duration-300">Tailwind CSS</span>
+                            <span class="text-xs font-bold bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 px-2 py-1 rounded transition-colors duration-300">SQLite</span>
                         </div>
                     </div>
 

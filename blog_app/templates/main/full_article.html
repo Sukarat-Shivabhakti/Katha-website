@@ -8,63 +8,85 @@
     <link href="{% static 'src/styles.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+<body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include 'main/components/_navbar.html' %}
 
     <main class="flex-grow py-16 sm:py-24">
         <article class="mx-auto max-w-3xl px-6 lg:px-8">
             
-            <div class="flex items-center gap-x-4 text-sm mb-8">
-                <time datetime="{{ post.created_at|date:'Y-m-d' }}" class="text-gray-500 font-medium tracking-wide">
-                    {{ post.created_at|date:"F d, Y" }}
-                </time>
-                <span class="rounded-full border border-black/20 bg-white/40 px-3 py-1 font-bold text-black uppercase tracking-widest text-xs">
-                    {{ post.category }}
-                </span>
-            </div>
-
-            <h1 class="text-4xl font-black tracking-tight text-black sm:text-6xl mb-10 leading-tight" style="font-family: 'Merriweather', serif;">
-                {{ post.title }}
-            </h1>
-
-            <div class="flex items-center justify-between mb-12 pb-8 border-b border-black/10">
+            <!-- TOP HEADER: Author, Meta, and Action Buttons -->
+            <div class="flex items-center justify-between gap-6 mb-10 pb-8 border-b border-black/10 dark:border-white/10 transition-colors duration-300">
                 
+                <!-- Author Info -->
                 <div class="flex items-center gap-x-4">
-                    <div class="h-12 w-12 rounded-full bg-black flex items-center justify-center text-[#F9F6F0] font-bold text-xl shadow-sm">
-                        {{ post.author.username|make_list|first|upper }}
-                    </div>
+                    <a href="{% url 'profile' post.author.username %}" class="h-12 w-12 rounded-full bg-black dark:bg-white flex items-center justify-center text-[#F9F6F0] dark:text-black font-bold text-xl shadow-sm overflow-hidden border border-black/10 dark:border-white/10 transition-colors duration-300 hover:opacity-80 shrink-0">
+                        {% if post.author.profile.profile_picture %}
+                            <img src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.username }}" class="w-full h-full object-cover">
+                        {% else %}
+                            {{ post.author.username|make_list|first|upper }}
+                        {% endif %}
+                    </a>
                     <div>
-                        <p class="font-bold text-black text-lg">{{ post.author.username }}</p>
-                        <p class="text-gray-500 text-sm">Author</p>
+                        <div class="flex items-center gap-3 mb-1">
+                            <a href="{% url 'profile' post.author.username %}" class="font-bold text-black dark:text-white text-lg hover:underline transition-colors duration-300 line-clamp-1">
+                                {{ post.author.username }}
+                            </a>
+                            <span class="rounded-full border border-black/20 dark:border-white/20 bg-white/40 dark:bg-white/10 px-2.5 py-0.5 font-bold text-black dark:text-white uppercase tracking-widest text-[10px] transition-colors duration-300 shrink-0">
+                                {{ post.category }}
+                            </span>
+                        </div>
+                        <time datetime="{{ post.created_at|date:'Y-m-d' }}" class="text-gray-500 dark:text-gray-400 text-sm font-medium tracking-wide transition-colors duration-300">
+                            {{ post.created_at|date:"F d, Y" }}
+                        </time>
                     </div>
                 </div>
 
+                <!-- 3-Dot Dropdown Menu for Author -->
                 {% if request.user == post.author %}
-                    <div class="flex items-center gap-3">
-                        <a href="{% url 'edit_post' post.id %}" class="rounded border border-black/20 bg-white px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors">
-                            Edit
-                        </a>
-                        <a href="{% url 'delete_post' post.id %}" onclick="return confirm('Are you sure you want to delete this story?');" class="rounded border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600 hover:bg-red-100 transition-colors">
-                            Delete
-                        </a>
+                    <div class="relative">
+                        <!-- 3-Dot Button -->
+                        <button id="action-menu-btn" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-gray-500 dark:text-gray-400 focus:outline-none">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Content (Hidden by default) -->
+                        <div id="action-menu" class="hidden absolute right-0 mt-2 w-48 rounded-xl bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 shadow-lg z-50 overflow-hidden transition-colors duration-300">
+                            <a href="{% url 'edit_post' post.id %}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                                Edit Story
+                            </a>
+                            <a href="{% url 'delete_post' post.id %}" onclick="return confirm('Are you sure you want to delete this story? This cannot be undone.');" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors border-t border-black/5 dark:border-white/5">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                Delete Story
+                            </a>
+                        </div>
                     </div>
                 {% endif %}
-                
             </div>
 
+            <!-- TITLE -->
+            <h1 class="text-4xl font-black tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl mb-12 leading-[1.15] transition-colors duration-300" style="font-family: 'Merriweather', serif;">
+                {{ post.title }}
+            </h1>
+
+            <!-- COVER IMAGE -->
             {% if post.image %}
-                <div class="mb-14 rounded-2xl overflow-hidden border border-black/10 shadow-sm bg-white aspect-[16/9] w-full">
+                <div class="mb-14 rounded-2xl overflow-hidden border border-black/10 dark:border-white/10 shadow-sm bg-white dark:bg-[#1a1a1a] aspect-[16/9] w-full transition-colors duration-300">
                     <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover">
                 </div>
             {% endif %}
 
-            <div class="prose max-w-none text-lg leading-relaxed text-gray-800 space-y-6" style="font-family: 'Merriweather', serif;">
-                {{ post.content| linebreaks }}
+            <!-- STORY CONTENT -->
+            <div class="prose max-w-none text-lg leading-relaxed text-gray-800 dark:text-gray-300 space-y-6 transition-colors duration-300" style="font-family: 'Merriweather', serif;">
+                {{ post.content|linebreaks }}
             </div>
 
-            <div class="mt-20 pt-10 border-t border-black/10">
-                <a href="{% url 'index' %}" class="inline-flex items-center gap-2 text-black font-bold hover:text-gray-600 transition-colors uppercase tracking-widest text-sm">
+            <!-- FOOTER NAVIGATION -->
+            <div class="mt-20 pt-10 border-t border-black/10 dark:border-white/10 transition-colors duration-300">
+                <a href="{% url 'index' %}" class="inline-flex items-center gap-2 text-black dark:text-white font-bold hover:text-gray-600 dark:hover:text-gray-400 transition-colors uppercase tracking-widest text-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     Back to Dashboard
                 </a>
@@ -74,6 +96,29 @@
     </main>
 
     {% include "main/components/__footer.html" %}
+
+    <!-- Script for the 3-Dot Dropdown -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuBtn = document.getElementById('action-menu-btn');
+            const actionMenu = document.getElementById('action-menu');
+
+            if (menuBtn && actionMenu) {
+                // Toggle menu on button click
+                menuBtn.addEventListener('click', function(event) {
+                    event.stopPropagation(); // Prevents the click from immediately closing the menu
+                    actionMenu.classList.toggle('hidden');
+                });
+
+                // Close menu when clicking anywhere else on the screen
+                document.addEventListener('click', function(event) {
+                    if (!actionMenu.contains(event.target)) {
+                        actionMenu.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

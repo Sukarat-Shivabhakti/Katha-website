@@ -8,20 +8,21 @@
     <link href="{% static 'src/styles.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+<body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include 'main/components/_navbar.html' %}
 
     <main class="flex-grow pb-16">
         
         <header class="relative mb-16">
-            <div class="h-48 md:h-64 bg-black w-full border-b border-black/20"></div>
+            <!-- Profile Banner -->
+            <div class="h-48 md:h-64 bg-black dark:bg-[#0a0a0a] w-full border-b border-black/20 dark:border-white/10 transition-colors duration-300"></div>
 
             <div class="mx-auto max-w-7xl px-6 lg:px-8 relative">
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 -mt-16 sm:-mt-20">
                     
-                    <!-- UPDATED: Profile Picture with fallback -->
-                    <div class="h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-white border-4 border-[#F9F6F0] overflow-hidden shadow-md shrink-0 flex items-center justify-center text-black font-black text-6xl" style="font-family: 'Merriweather', serif;">
+                    <!-- Profile Picture -->
+                    <div class="h-32 w-32 sm:h-40 sm:w-40 rounded-full bg-white dark:bg-[#1a1a1a] border-4 border-[#F9F6F0] dark:border-[#121212] overflow-hidden shadow-md shrink-0 flex items-center justify-center text-black dark:text-white font-black text-6xl transition-colors duration-300" style="font-family: 'Merriweather', serif;">
                         {% if profile_user.profile.profile_picture %}
                             <img src="{{ profile_user.profile.profile_picture.url }}" alt="{{ profile_user.username }}" class="h-full w-full object-cover">
                         {% else %}
@@ -30,30 +31,30 @@
                     </div>
 
                     <div class="text-center sm:text-left pt-2 sm:pt-24 max-w-2xl">
-                        <h1 class="text-3xl font-black text-black tracking-tight" style="font-family: 'Merriweather', serif;">
+                        <h1 class="text-3xl font-black text-black dark:text-white tracking-tight transition-colors duration-300" style="font-family: 'Merriweather', serif;">
                             {{ profile_user.username }}
                         </h1>
-                        <p class="text-gray-600 font-bold tracking-widest uppercase text-sm mt-1">
+                        <p class="text-gray-600 dark:text-gray-400 font-bold tracking-widest uppercase text-sm mt-1 transition-colors duration-300">
                             {{ post_count }} Stor{% if post_count == 1 %}y{% else %}ies{% endif %} Published
                         </p>
                         
-                        <!-- NEW: User Bio -->
+                        <!-- User Bio -->
                         {% if profile_user.profile.bio %}
-                            <p class="mt-4 text-black text-base leading-relaxed font-medium">
+                            <p class="mt-4 text-black dark:text-gray-300 text-base leading-relaxed font-medium transition-colors duration-300">
                                 {{ profile_user.profile.bio }}
                             </p>
                         {% endif %}
                     </div>
 
                     {% if request.user == profile_user %}
-                    <!-- UPDATED: Added Edit Profile Button -->
+                    <!-- Action Buttons -->
                     <div class="sm:ml-auto pt-4 sm:pt-24 flex flex-col sm:flex-row gap-4">
-                        <a href="{% url 'edit_profile' %}" class="rounded-lg border-2 border-black/20 bg-white px-8 py-3.5 text-sm font-bold text-black hover:border-black transition-colors flex items-center justify-center">
-                    Edit Profile
-                         </a>
-                        <a href="{% url 'add_post' %}" class="rounded-lg bg-black px-8 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
-                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Write New Story
+                        <a href="{% url 'edit_profile' %}" class="rounded-lg border-2 border-black/20 dark:border-white/20 bg-white dark:bg-transparent px-8 py-3.5 text-sm font-bold text-black dark:text-white hover:border-black dark:hover:border-white transition-colors flex items-center justify-center">
+                            Edit Profile
+                        </a>
+                        <a href="{% url 'add_post' %}" class="rounded-lg bg-black dark:bg-white px-8 py-3.5 text-sm font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Write New Story
                         </a>
                     </div>
                     {% endif %}
@@ -64,7 +65,7 @@
 
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             
-            <h2 class="text-xl font-bold tracking-widest uppercase border-b border-black/10 pb-4 mb-8">
+            <h2 class="text-xl font-bold tracking-widest uppercase border-b border-black/10 dark:border-white/10 pb-4 mb-8 transition-colors duration-300">
                 Stories by {{ profile_user.username }}
             </h2>
 
@@ -75,15 +76,15 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <div class="text-center py-20 border-2 border-dashed border-black/20 rounded-2xl bg-white/50">
-                    <p class="text-xl text-gray-500 font-bold">No stories published yet.</p>
+                <div class="text-center py-20 border-2 border-dashed border-black/20 dark:border-white/20 rounded-2xl bg-white/50 dark:bg-[#1a1a1a]/50 transition-colors duration-300">
+                    <p class="text-xl text-gray-500 dark:text-gray-400 font-bold transition-colors duration-300">No stories published yet.</p>
                 </div>
             {% endif %}
 
             {% if request.user == profile_user %}
                 <div class="mt-24">
-                    <div class="flex items-center justify-between mb-8 pb-4 border-b-2 border-black/10">
-                        <h2 class="text-xl font-bold tracking-widest uppercase text-gray-500 flex items-center gap-3">
+                    <div class="flex items-center justify-between mb-8 pb-4 border-b-2 border-black/10 dark:border-white/10 transition-colors duration-300">
+                        <h2 class="text-xl font-bold tracking-widest uppercase text-gray-500 dark:text-gray-400 flex items-center gap-3 transition-colors duration-300">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             My Private Drafts
                         </h2>
@@ -96,8 +97,8 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        <div class="text-center py-12 border-2 border-dashed border-black/20 rounded-2xl bg-black/5">
-                            <p class="text-gray-500 font-bold">You don't have any saved drafts.</p>
+                        <div class="text-center py-12 border-2 border-dashed border-black/20 dark:border-white/20 rounded-2xl bg-black/5 dark:bg-white/5 transition-colors duration-300">
+                            <p class="text-gray-500 dark:text-gray-400 font-bold transition-colors duration-300">You don't have any saved drafts.</p>
                         </div>
                     {% endif %}
                 </div>

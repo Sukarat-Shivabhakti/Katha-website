@@ -8,70 +8,70 @@
     <link href="{% static 'src/styles.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+<body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include 'main/components/_navbar.html' %}
 
     <main class="flex-grow py-16">
         <div class="mx-auto max-w-3xl px-6 lg:px-8">
-            <h1 class="text-4xl font-black tracking-tight text-black mb-8" style="font-family: 'Merriweather', serif;">Edit Your Story</h1>
+            <h1 class="text-4xl font-black tracking-tight text-black dark:text-white mb-8 transition-colors duration-300" style="font-family: 'Merriweather', serif;">Edit Your Story</h1>
 
-            <form method="POST" action="" enctype="multipart/form-data" class="space-y-6 bg-white p-8 rounded-2xl border border-black/10 shadow-sm">
+            <form method="POST" action="" enctype="multipart/form-data" class="space-y-6 bg-white dark:bg-[#1a1a1a] p-8 rounded-2xl border border-black/10 dark:border-white/10 shadow-sm transition-colors duration-300">
                 {% csrf_token %}
 
                 <div>
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Title</label>
-                    <input type="text" name="title" value="{{ post.title }}" required class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors text-lg" style="font-family: 'Merriweather', serif;">
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-2 transition-colors duration-300">Title</label>
+                    <input type="text" name="title" value="{{ post.title }}" required class="w-full rounded-lg border-2 border-black/20 dark:border-white/20 bg-transparent dark:bg-[#121212] px-4 py-3 text-black dark:text-white focus:border-black dark:focus:border-white focus:ring-0 transition-colors duration-300 text-lg" style="font-family: 'Merriweather', serif;">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Category</label>
-                    <select name="category" required class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors bg-white cursor-pointer appearance-none">
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-2 transition-colors duration-300">Category</label>
+                    <select name="category" required class="w-full rounded-lg border-2 border-black/20 dark:border-white/20 bg-white dark:bg-[#121212] px-4 py-3 text-black dark:text-white focus:border-black dark:focus:border-white focus:ring-0 transition-colors duration-300 cursor-pointer appearance-none">
                         <option value="" disabled>Select a category...</option>
                         <option value="Study" {% if post.category == 'Study' %}selected{% endif %}>Study</option>
                         <option value="Lifestyle" {% if post.category == 'Lifestyle' %}selected{% endif %}>Lifestyle</option>
                         <option value="Love" {% if post.category == 'Love' %}selected{% endif %}>Love</option>
                         <option value="Technology" {% if post.category == 'Technology' %}selected{% endif %}>Technology</option>
-                        <option value="Sports" {% if post.category == 'Sports' %}selected{% endif %}>Sports</option>                        
+                        <option value="Sports" {% if post.category == 'Sports' %}selected{% endif %}>Sports</option>        
                         <option value="Personal" {% if post.category == 'Personal' %}selected{% endif %}>Personal</option>
                         <option value="Creative" {% if post.category == 'Creative' %}selected{% endif %}>Creative</option>
                         <option value="Others" {% if post.category == 'Others' %}selected{% endif %}>Others</option>
                     </select>
                 </div>
 
-                <div class="p-4 border-2 border-dashed border-black/20 rounded-lg bg-[#F9F6F0]">
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-3">Cover Image (Optional)</label>
+                <div class="p-4 border-2 border-dashed border-black/20 dark:border-white/20 rounded-lg bg-[#F9F6F0] dark:bg-[#121212] transition-colors duration-300">
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-3 transition-colors duration-300">Cover Image (Optional)</label>
                     
                     {% if post.image %}
-                        <!-- NEW: Remove Image Checkbox block -->
-                        <div class="mb-4 p-3 bg-white border border-black/10 rounded-lg flex items-center justify-between shadow-sm">
-                            <span class="text-sm text-green-700 font-bold">✓ Current image active</span>
+                        <!-- Remove Image Checkbox block -->
+                        <div class="mb-4 p-3 bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 rounded-lg flex items-center justify-between shadow-sm transition-colors duration-300">
+                            <span class="text-sm text-green-700 dark:text-green-500 font-bold transition-colors duration-300">✓ Current image active</span>
                             <label class="flex items-center gap-2 cursor-pointer group">
-                                <input type="checkbox" name="remove_image" value="true" class="w-4 h-4 text-red-600 focus:ring-red-600 border-black/30 rounded cursor-pointer">
-                                <span class="text-sm font-bold text-red-600 group-hover:underline">Remove Image</span>
+                                <input type="checkbox" name="remove_image" value="true" class="w-4 h-4 text-red-600 focus:ring-red-600 border-black/30 dark:border-white/30 rounded cursor-pointer transition-colors duration-300">
+                                <span class="text-sm font-bold text-red-600 dark:text-red-400 group-hover:underline transition-colors duration-300">Remove Image</span>
                             </label>
                         </div>
-                        <p class="text-xs text-gray-500 mb-2 font-bold uppercase tracking-widest">Or upload a new file to replace it:</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2 font-bold uppercase tracking-widest transition-colors duration-300">Or upload a new file to replace it:</p>
                     {% endif %}
                     
-                    <input type="file" name="image" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800 transition-colors cursor-pointer">
+                    <input type="file" name="image" accept="image/*" class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black dark:file:bg-white file:text-white dark:file:text-black hover:file:bg-gray-800 dark:hover:file:bg-gray-200 transition-colors duration-300 cursor-pointer">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Story Content</label>
-                    <textarea name="content" required rows="10" class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors text-lg leading-relaxed">{{ post.content }}</textarea>
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-2 transition-colors duration-300">Story Content</label>
+                    <textarea name="content" required rows="10" class="w-full rounded-lg border-2 border-black/20 dark:border-white/20 bg-transparent dark:bg-[#121212] px-4 py-3 text-black dark:text-white focus:border-black dark:focus:border-white focus:ring-0 transition-colors duration-300 text-lg leading-relaxed">{{ post.content }}</textarea>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-black/10 items-center">
-                    <button type="submit" name="action" value="publish" class="w-full sm:w-auto rounded-lg bg-black px-8 py-3.5 text-base font-bold text-white shadow-sm hover:bg-gray-800 transition-colors text-center">
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-black/10 dark:border-white/10 items-center transition-colors duration-300">
+                    <button type="submit" name="action" value="publish" class="w-full sm:w-auto rounded-lg bg-black dark:bg-white px-8 py-3.5 text-base font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-300 text-center">
                         Update to feed
                     </button>
                     
-                    <button type="submit" name="action" value="draft" class="w-full sm:w-auto rounded-lg border-2 border-black/20 bg-white px-8 py-3 text-base font-bold text-black hover:border-black transition-colors text-center">
+                    <button type="submit" name="action" value="draft" class="w-full sm:w-auto rounded-lg border-2 border-black/20 dark:border-white/20 bg-white dark:bg-transparent px-8 py-3 text-base font-bold text-black dark:text-white hover:border-black dark:hover:border-white transition-colors duration-300 text-center">
                         Save as Draft
                     </button>
                     
-                    <a href="{% url 'full_article' post.id %}" class="w-full sm:w-auto sm:ml-auto rounded-lg px-8 py-3.5 text-base font-bold text-gray-500 hover:text-black hover:bg-black/5 transition-colors text-center">
+                    <a href="{% url 'full_article' post.id %}" class="w-full sm:w-auto sm:ml-auto rounded-lg px-8 py-3.5 text-base font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-300 text-center">
                         Cancel
                     </a>
                 </div>

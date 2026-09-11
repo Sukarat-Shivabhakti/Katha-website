@@ -7,24 +7,24 @@
     {% load static %}
     <link href="{% static 'src/styles.css' %}" rel="stylesheet">
 </head>
-<body class="bg-[#F9F6F0]  text-black font-sans min-h-screen flex flex-col">
+<body class="bg-[#F9F6F0] dark:bg-[#121212] text-black dark:text-white font-sans min-h-screen flex flex-col transition-colors duration-300">
     
     {% include "main/components/_navbar.html" %}
     
     <div class="flex-grow flex items-center justify-center p-4">
         
-        <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-100">
+        <div class="bg-white dark:bg-[#1a1a1a] p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-100 dark:border-white/10 transition-colors duration-300">
             
             <div class="text-center mb-6">
-                <h2 class="text-3xl font-extrabold text-gray-900">Create an Account</h2>
-                <p class="text-gray-500 mt-2 text-sm">Join the platform and start blogging today.</p>
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white transition-colors duration-300">Create an Account</h2>
+                <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm transition-colors duration-300">Join the platform and start blogging today.</p>
             </div>
 
             {% if messages %}
                 {% for message in messages %}
-                    <div class="p-3 mb-4 rounded-lg text-sm font-medium 
-                        {% if message.tags == 'error' %} bg-red-100 text-red-700 
-                        {% else %} bg-green-100 text-green-700 {% endif %}">
+                    <div class="p-3 mb-4 rounded-lg text-sm font-medium transition-colors duration-300
+                        {% if message.tags == 'error' %} bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400
+                        {% else %} bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-400 {% endif %}">
                         {{ message }}
                     </div>
                 {% endfor %}
@@ -36,57 +36,57 @@
                 <div class="space-y-4">
                     
                     <div>
-                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-1">Username</label>
+                        <label for="username" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Username</label>
                         <input type="text" id="username" name="username" value="{{ prev.username }}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                            class="w-full px-4 py-2 bg-white dark:bg-[#121212] border border-gray-300 dark:border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-white/20 focus:border-blue-500 dark:focus:border-white text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-300"
                             placeholder="Choose a username">
                         {% if error.username %}
-                            <p class="text-red-500 text-xs mt-1 font-semibold">{{ error.username }}</p>
+                            <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-semibold transition-colors duration-300">{{ error.username }}</p>
                         {% endif %}
                     </div>
 
                     <div>
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Email Address</label>
                         <input type="email" id="email" name="email" value="{{ prev.email }}"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                            class="w-full px-4 py-2 bg-white dark:bg-[#121212] border border-gray-300 dark:border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-white/20 focus:border-blue-500 dark:focus:border-white text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-300"
                             placeholder="you@example.com">
                         {% if error.email %}
-                            <p class="text-red-500 text-xs mt-1 font-semibold">{{ error.email }}</p>
+                            <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-semibold transition-colors duration-300">{{ error.email }}</p>
                         {% endif %}
                     </div>
 
                     <div>
-                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Password</label>
                         <input type="password" id="password" name="password" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                            class="w-full px-4 py-2 bg-white dark:bg-[#121212] border border-gray-300 dark:border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-white/20 focus:border-blue-500 dark:focus:border-white text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-300"
                             placeholder="••••••••">
                         {% if error.password %}
-                            <p class="text-red-500 text-xs mt-1 font-semibold">{{ error.password }}</p>
+                            <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-semibold transition-colors duration-300">{{ error.password }}</p>
                         {% endif %}
                     </div>
 
                     <div>
-                        <label for="confirm_password" class="block text-sm font-semibold text-gray-700 mb-1">Confirm Password</label>
+                        <label for="confirm_password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Confirm Password</label>
                         <input type="password" id="confirm_password" name="confirm_password" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                            class="w-full px-4 py-2 bg-white dark:bg-[#121212] border border-gray-300 dark:border-white/20 rounded-lg focus:ring-2 focus:ring-blue-500 dark:focus:ring-white/20 focus:border-blue-500 dark:focus:border-white text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none transition-all duration-300"
                             placeholder="••••••••">
                         {% if error.confirm_password %}
-                            <p class="text-red-500 text-xs mt-1 font-semibold">{{ error.confirm_password }}</p>
+                            <p class="text-red-500 dark:text-red-400 text-xs mt-1 font-semibold transition-colors duration-300">{{ error.confirm_password }}</p>
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="mt-8">
                     <button type="submit" 
-                        class="w-full bg-black hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                        class="w-full bg-black dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-200 text-white dark:text-black font-bold py-3 px-4 rounded-lg transition-colors duration-300 shadow-md">
                         Register
                     </button>
                 </div>
             </form>
 
-            <div class="mt-6 text-center text-sm text-gray-600">
+            <div class="mt-6 text-center text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">
                 <p>Already have an account? 
-                    <a href="{% url 'login' %}" class="font-semibold text-blue-600 hover:text-blue-800 hover:underline transition-colors">Log in here</a>
+                    <a href="{% url 'login' %}" class="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors duration-300">Log in here</a>
                 </p>
             </div>
 

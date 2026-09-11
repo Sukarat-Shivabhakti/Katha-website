@@ -8,7 +8,7 @@
     <link href="{% static 'src/styles.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+<body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include "main/components/_navbar.html" %}
 
@@ -16,34 +16,34 @@
         <div class="mx-auto max-w-3xl px-6 lg:px-8">
             
             <div class="mb-8">
-                <h1 class="text-4xl font-black tracking-tight text-black mb-2" style="font-family: 'Merriweather', serif;">Write a New Story</h1>
-                <p class="text-gray-500 font-bold uppercase tracking-widest text-sm">Share your thoughts with the world, {{user.username}}.</p>
+                <h1 class="text-4xl font-black tracking-tight text-black dark:text-white mb-2 transition-colors duration-300" style="font-family: 'Merriweather', serif;">Write a New Story</h1>
+                <p class="text-gray-500 dark:text-gray-400 font-bold uppercase tracking-widest text-sm transition-colors duration-300">Share your thoughts with the world, {{user.username}}.</p>
             </div>
 
             {% if messages %}
                 <div class="mb-6">
                     {% for message in messages %}
-                        <div class="p-4 rounded-lg text-sm font-bold border-2 
-                            {% if message.tags == 'error' %} bg-red-50 text-red-700 border-red-200 
-                            {% else %} bg-green-50 text-green-700 border-green-200 {% endif %}">
+                        <div class="p-4 rounded-lg text-sm font-bold border-2 transition-colors duration-300
+                            {% if message.tags == 'error' %} bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50
+                            {% else %} bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-900/50 {% endif %}">
                             {{ message }}
                         </div>
                     {% endfor %}
                 </div>
             {% endif %}
 
-            <form method="POST" action="" enctype="multipart/form-data" class="space-y-6 bg-white p-8 rounded-2xl border border-black/10 shadow-sm">
+            <form method="POST" action="" enctype="multipart/form-data" class="space-y-6 bg-white dark:bg-[#1a1a1a] p-8 rounded-2xl border border-black/10 dark:border-white/10 shadow-sm transition-colors duration-300">
                 {% csrf_token %}
 
                 <div>
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Title</label>
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-2 transition-colors duration-300">Title</label>
                     <input type="text" name="title" required placeholder="Give your story a catchy title..."
-                        class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors text-lg" style="font-family: 'Merriweather', serif;">
+                        class="w-full rounded-lg border-2 border-black/20 dark:border-white/20 bg-transparent dark:bg-[#121212] px-4 py-3 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-black dark:focus:border-white focus:ring-0 transition-colors duration-300 text-lg" style="font-family: 'Merriweather', serif;">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Category</label>
-                    <select name="category" required class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors bg-white cursor-pointer appearance-none">
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-2 transition-colors duration-300">Category</label>
+                    <select name="category" required class="w-full rounded-lg border-2 border-black/20 dark:border-white/20 px-4 py-3 text-black dark:text-white bg-white dark:bg-[#121212] focus:border-black dark:focus:border-white focus:ring-0 transition-colors duration-300 cursor-pointer appearance-none">
                         <option value="" disabled selected>Select a category...</option>
                         <option value="Study">Study</option>
                         <option value="Lifestyle">Lifestyle</option>
@@ -56,28 +56,28 @@
                     </select>
                 </div>
 
-                <div class="p-4 border-2 border-dashed border-black/20 rounded-lg bg-[#F9F6F0]">
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Cover Image (Optional)</label>
+                <div class="p-4 border-2 border-dashed border-black/20 dark:border-white/20 rounded-lg bg-[#F9F6F0] dark:bg-[#121212] transition-colors duration-300">
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-2 transition-colors duration-300">Cover Image (Optional)</label>
                     <input type="file" name="image" accept="image/*" 
-                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black file:text-white hover:file:bg-gray-800 transition-colors cursor-pointer">
+                        class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-black dark:file:bg-white file:text-white dark:file:text-black hover:file:bg-gray-800 dark:hover:file:bg-gray-200 transition-colors duration-300 cursor-pointer">
                 </div>
 
                 <div>
-                    <label class="block text-sm font-bold text-black uppercase tracking-widest mb-2">Story Content</label>
+                    <label class="block text-sm font-bold text-black dark:text-white uppercase tracking-widest mb-2 transition-colors duration-300">Story Content</label>
                     <textarea name="content" rows="10" required placeholder="Start typing your story here..."
-                        class="w-full rounded-lg border-2 border-black/20 px-4 py-3 text-black focus:border-black focus:ring-0 transition-colors text-lg leading-relaxed"></textarea>
+                        class="w-full rounded-lg border-2 border-black/20 dark:border-white/20 bg-transparent dark:bg-[#121212] px-4 py-3 text-black dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:border-black dark:focus:border-white focus:ring-0 transition-colors duration-300 text-lg leading-relaxed"></textarea>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-black/10 items-center">
-                    <button type="submit" name="action" value="publish" class="w-full sm:w-auto rounded-lg bg-black px-8 py-3.5 text-base font-bold text-white shadow-sm hover:bg-gray-800 transition-colors text-center">
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-black/10 dark:border-white/10 items-center transition-colors duration-300">
+                    <button type="submit" name="action" value="publish" class="w-full sm:w-auto rounded-lg bg-black dark:bg-white px-8 py-3.5 text-base font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-300 text-center">
                         Publish to Feed
                     </button>
                     
-                    <button type="submit" name="action" value="draft" class="w-full sm:w-auto rounded-lg border-2 border-black/20 bg-white px-8 py-3 text-base font-bold text-black hover:border-black transition-colors text-center">
+                    <button type="submit" name="action" value="draft" class="w-full sm:w-auto rounded-lg border-2 border-black/20 dark:border-white/20 bg-white dark:bg-transparent px-8 py-3 text-base font-bold text-black dark:text-white hover:border-black dark:hover:border-white transition-colors duration-300 text-center">
                         Save as Draft
                     </button>
                     
-                    <a href="{% url 'index' %}" class="w-full sm:w-auto sm:ml-auto rounded-lg px-8 py-3.5 text-base font-bold text-gray-500 hover:text-black hover:bg-black/5 transition-colors text-center">
+                    <a href="{% url 'index' %}" class="w-full sm:w-auto sm:ml-auto rounded-lg px-8 py-3.5 text-base font-bold text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors duration-300 text-center">
                         Cancel
                     </a>
                 </div>

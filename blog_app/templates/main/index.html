@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | कथा.</title>
+    <title>Home | कथा.</title>
     {% load static %}
     <link href="{% static 'src/styles.css' %}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
-<body class="bg-[#F9F6F0] font-sans min-h-screen flex flex-col text-black">
+<body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include 'main/components/_navbar.html' %}
 
-    <div class="bg-[#F9F6F0] py-12 sm:py-16 flex-grow">
+    <div class="bg-[#F9F6F0] dark:bg-[#121212] py-12 sm:py-16 flex-grow transition-colors duration-300">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             
             <!-- Alert Messages -->
@@ -20,8 +21,8 @@
                 <div class="mb-10 mx-auto max-w-3xl lg:mx-0">
                     {% for message in messages %}
                         <div class="p-4 rounded-lg text-sm font-bold border-2
-                            {% if message.tags == 'error' %} bg-red-50 text-red-700 border-red-200
-                            {% else %} bg-green-50 text-green-700 border-green-200 {% endif %}">
+                            {% if message.tags == 'error' %} bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50
+                            {% else %} bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-900/50 {% endif %} transition-colors duration-300">
                             {{ message }}
                         </div>
                     {% endfor %}
@@ -31,20 +32,20 @@
             {% if user.is_authenticated %}
                 
                 <!-- LOGGED IN UI -->
-                <div class="mb-16 border-b-2 border-black/10 pb-12">
-                    <h1 class="text-4xl sm:text-5xl font-black text-black mb-4 leading-tight" style="font-family: 'Merriweather', serif;">
+                <div class="mb-16 border-b-2 border-black/10 dark:border-white/10 pb-12 transition-colors duration-300">
+                    <h1 class="text-4xl sm:text-5xl font-black text-black dark:text-white mb-4 leading-tight transition-colors duration-300" style="font-family: 'Merriweather', serif;">
                         Welcome back, {{ user.username }}.
                     </h1>
-                    <p class="text-lg text-gray-600 mb-8 max-w-2xl">
-                        Your digital canvas is waiting. What new <span class="font-bold text-black font-serif">कथा.</span> will you share with the world today?
+                    <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl transition-colors duration-300">
+                        Your digital canvas is waiting. What new <span class="font-bold text-black dark:text-white font-serif transition-colors duration-300">कथा.</span> will you share with the world today?
                     </p>
                     
                     <div class="flex flex-wrap items-center gap-4">
-                        <a href="{% url 'add_post' %}" class="rounded-lg bg-black px-8 py-3.5 text-sm font-bold text-white shadow-sm hover:bg-gray-800 transition-colors flex items-center gap-2">
+                        <a href="{% url 'add_post' %}" class="rounded-lg bg-black dark:bg-white px-8 py-3.5 text-sm font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                             Write New Story
                         </a>
-                        <a href="{% url 'profile' request.user.username %}" class="rounded-lg border-2 border-black/20 bg-white px-8 py-3.5 text-sm font-bold text-black hover:border-black transition-colors">
+                        <a href="{% url 'profile' request.user.username %}" class="rounded-lg border-2 border-black/20 dark:border-white/20 bg-white dark:bg-transparent px-8 py-3.5 text-sm font-bold text-black dark:text-white hover:border-black dark:hover:border-white transition-colors">
                             View My Profile
                         </a>
                     </div>
@@ -56,29 +57,31 @@
                 <div class="mx-auto max-w-4xl lg:mx-0 mb-24 pt-12">
                     
                     <!-- Small Overline Text -->
-                    <div class="uppercase tracking-widest text-xs sm:text-sm font-bold text-gray-500 mb-6 flex items-center gap-4">
-                        <span class="w-12 h-1 bg-black block"></span>
+                    <div class="uppercase tracking-widest text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 flex items-center gap-4 transition-colors duration-300">
+                        <span class="w-12 h-1 bg-black dark:bg-white block transition-colors duration-300"></span>
                         The Writer's Canvas
                     </div>
                     
-                    <!-- Giant Floating Headline -->
-                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-black leading-[1.1] mb-8" style="font-family: 'Merriweather', serif;">
-                        Where your thoughts <br class="hidden sm:block" /> become a 
-                        <span class="bg-black text-[#F9F6F0] px-4 py-1.5 inline-block ml-2 transform -rotate-3 mt-2 sm:mt-0 shadow-sm rounded-sm">
-                            कथा.
-                        </span>
+                    <!-- Giant Floating Headline (Seamless & Clean format) -->
+                    <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-black dark:text-white leading-[1.1] mb-8 transition-colors duration-300" style="font-family: 'Merriweather', serif;">
+                        Where your 
+                        <!-- The seamlessly fading word (Format matches exactly) -->
+                        <span id="changing-word" class="inline-block transition-opacity duration-500 ease-in-out opacity-100">
+                            thoughts
+                        </span> 
+                        <br class="hidden sm:block" /> become Stories.
                     </h1>
                     
-                    <p class="text-lg sm:text-xl text-gray-700 max-w-2xl leading-relaxed mb-10 font-medium">
+                    <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-2xl leading-relaxed mb-10 font-medium transition-colors duration-300">
                         A minimalist, distraction-free space engineered for developers, thinkers, and storytellers to share their unfiltered ideas with the world.
                     </p>
                     
                     <!-- Action Buttons -->
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                        <a href="{% url 'register' %}" class="w-full sm:w-auto text-center rounded-lg bg-black text-[#F9F6F0] px-10 py-4 font-bold text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors duration-200">
+                        <a href="{% url 'register' %}" class="w-full sm:w-auto text-center rounded-lg bg-black dark:bg-white text-[#F9F6F0] dark:text-black px-10 py-4 font-bold text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-200">
                             Start Writing
                         </a>
-                        <a href="#feed" class="w-full sm:w-auto text-center rounded-lg px-10 py-4 font-bold text-sm uppercase tracking-widest border-2 border-black/20 text-gray-600 hover:border-black hover:text-black transition-colors duration-200">
+                        <a href="#feed" class="w-full sm:w-auto text-center rounded-lg px-10 py-4 font-bold text-sm uppercase tracking-widest border-2 border-black/20 dark:border-white/20 text-gray-600 dark:text-gray-300 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-colors duration-200">
                             Explore Feed
                         </a>
                     </div>
@@ -87,8 +90,8 @@
             {% endif %}
 
             <!-- FEED TITLE & UI FILTERS -->
-            <div id="feed" class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-black pb-4">
-                <h3 class="text-xl font-black uppercase tracking-widest text-black shrink-0">
+            <div id="feed" class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-black dark:border-white/20 pb-4 transition-colors duration-300">
+                <h3 class="text-xl font-black uppercase tracking-widest text-black dark:text-white shrink-0 transition-colors duration-300">
                     {% if user.is_authenticated %}Community Feed{% else %}Latest Stories{% endif %}
                 </h3>
                 
@@ -97,58 +100,58 @@
     
                 <a href="{% url 'index' %}?category=All{% if search_query %}&q={{ search_query }}{% endif %}" 
                     class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                    {% if current_category == 'All' or not current_category %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                    {% if current_category == 'All' or not current_category %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     All
                 </a>
 
                 <a href="{% url 'index' %}?category=Study{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Study' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Study' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Study
                 </a>
 
                 <a href="{% url 'index' %}?category=Lifestyle{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Lifestyle' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Lifestyle' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Lifestyle
                 </a>
 
                 <a href="{% url 'index' %}?category=Love{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Love' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Love' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Love
                 </a>
 
                 <a href="{% url 'index' %}?category=Technology{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Technology' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Technology' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Technology
                 </a>
 
                 <a href="{% url 'index' %}?category=Sports{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Sports' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Sports' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Sports
                 </a>
 
                 <a href="{% url 'index' %}?category=Personal{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Personal' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Personal' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Personal
                 </a>
 
                 <a href="{% url 'index' %}?category=Creative{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Creative' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Creative' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Creative
                 </a>
 
                 <a href="{% url 'index' %}?category=Others{% if search_query %}&q={{ search_query }}{% endif %}" 
                 class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Others' %} bg-black text-[#F9F6F0] {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black {% endif %}">
+                {% if current_category == 'Others' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
                     Others
                 </a>
-</div>
+                </div>
             </div>
 
             <!-- BLOG CARDS GRID -->
@@ -158,19 +161,20 @@
                     {% include 'main/components/_blog_card.html' %}
                 {% empty %}
                     
-                    <div class="col-span-full py-24 text-center border-2 border-dashed border-black/20 rounded-2xl bg-white/50">
-                        <div class="mx-auto h-16 w-16 mb-4 rounded-full bg-black/5 flex items-center justify-center">
-                            <svg class="w-8 h-8 text-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    <!-- Dark mode applied to empty state -->
+                    <div class="col-span-full py-24 text-center border-2 border-dashed border-black/20 dark:border-white/20 rounded-2xl bg-white/50 dark:bg-[#1a1a1a]/50 transition-colors duration-300">
+                        <div class="mx-auto h-16 w-16 mb-4 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center transition-colors duration-300">
+                            <svg class="w-8 h-8 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                         </div>
-                        <h3 class="mt-2 text-2xl font-black text-black" style="font-family: 'Merriweather', serif;">No posts yet</h3>
-                        <p class="mt-2 text-lg text-gray-600 mb-8 max-w-md mx-auto">The community feed is currently quiet. Be the very first to share something awesome.</p>
+                        <h3 class="mt-2 text-2xl font-black text-black dark:text-white transition-colors duration-300" style="font-family: 'Merriweather', serif;">No posts yet</h3>
+                        <p class="mt-2 text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto transition-colors duration-300">The community feed is currently quiet. Be the very first to share something awesome.</p>
                         
                         {% if user.is_authenticated %}
-                            <a href="{% url 'add_post' %}" class="inline-block rounded-lg bg-black px-8 py-3 text-base font-bold text-white shadow-sm hover:bg-gray-800 transition-colors">
+                            <a href="{% url 'add_post' %}" class="inline-block rounded-lg bg-black dark:bg-white px-8 py-3 text-base font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
                                 Start Writing
                             </a>
                         {% else %}
-                            <a href="{% url 'login' %}?next=/add-post/" class="inline-block rounded-lg bg-black px-8 py-3 text-base font-bold text-white shadow-sm hover:bg-gray-800 transition-colors">
+                            <a href="{% url 'login' %}?next=/add-post/" class="inline-block rounded-lg bg-black dark:bg-white px-8 py-3 text-base font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
                                 Login to Start Writing
                             </a>
                         {% endif %}
@@ -187,6 +191,45 @@
     {% else %}
         {% include "main/components/_footer.html" %}
     {% endif %}
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,        // 0.8 seconds to complete (buttery slow glide)
+            easing: 'ease-out-cubic', // The "premium" physics curve
+            once: true,           // Only animate once so it isn't distracting if they scroll up
+            offset: 50,           // Trigger slightly before the card is fully in view
+        });
+    </script>
+    
+    <!-- Hero Section Dynamic Word Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const wordElement = document.getElementById("changing-word");
+            
+            if (wordElement) {
+                // The words that will cycle through the sentence
+                const dynamicWords = ["thoughts", "experiences", "ideas", "visions"];
+                let wordIndex = 0;
+
+                setInterval(() => {
+                    // 1. Fade the current word out
+                    wordElement.classList.remove("opacity-100");
+                    wordElement.classList.add("opacity-0");
+                    
+                    // 2. Wait for it to disappear, swap the text, and fade it back in
+                    setTimeout(() => {
+                        wordIndex = (wordIndex + 1) % dynamicWords.length;
+                        wordElement.textContent = dynamicWords[wordIndex];
+                        
+                        wordElement.classList.remove("opacity-0");
+                        wordElement.classList.add("opacity-100");
+                    }, 500); // 500ms matches the CSS transition duration
+                    
+                }, 3000); // Swaps to a new word every 3 seconds
+            }
+        });
+    </script>
 
 </body>
 </html>
