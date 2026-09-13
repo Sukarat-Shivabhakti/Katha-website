@@ -11,15 +11,16 @@
 <body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include 'main/components/_navbar.html' %}
+    {% include "main/components/_alerts.html" %}
 
     <main class="flex-grow py-16 sm:py-24">
         <article class="mx-auto max-w-3xl px-6 lg:px-8">
             
             <!-- TOP HEADER: Author, Meta, and Action Buttons -->
-            <div class="flex items-center justify-between gap-6 mb-10 pb-8 border-b border-black/10 dark:border-white/10 transition-colors duration-300">
+            <div class="flex items-center justify-between gap-3 sm:gap-6 mb-10 pb-8 border-b border-black/10 dark:border-white/10 transition-colors duration-300">
                 
                 <!-- Author Info -->
-                <div class="flex items-center gap-x-4">
+                <div class="flex items-center gap-x-4 flex-1 min-w-0">
                     <a href="{% url 'profile' post.author.username %}" class="h-12 w-12 rounded-full bg-black dark:bg-white flex items-center justify-center text-[#F9F6F0] dark:text-black font-bold text-xl shadow-sm overflow-hidden border border-black/10 dark:border-white/10 transition-colors duration-300 hover:opacity-80 shrink-0">
                         {% if post.author.profile.profile_picture %}
                             <img src="{{ post.author.profile.profile_picture.url }}" alt="{{ post.author.username }}" class="w-full h-full object-cover">
@@ -27,33 +28,47 @@
                             {{ post.author.username|make_list|first|upper }}
                         {% endif %}
                     </a>
-                    <div>
-                        <div class="flex items-center gap-3 mb-1">
-                            <a href="{% url 'profile' post.author.username %}" class="font-bold text-black dark:text-white text-lg hover:underline transition-colors duration-300 line-clamp-1">
+                    <div class="min-w-0 flex-1">
+                        <div class="flex flex-wrap items-center gap-3 mb-1">
+                            <a href="{% url 'profile' post.author.username %}" class="font-bold text-black dark:text-white text-lg hover:underline transition-colors duration-300 truncate">
                                 {{ post.author.username }}
                             </a>
                             <span class="rounded-full border border-black/20 dark:border-white/20 bg-white/40 dark:bg-white/10 px-2.5 py-0.5 font-bold text-black dark:text-white uppercase tracking-widest text-[10px] transition-colors duration-300 shrink-0">
                                 {{ post.category }}
                             </span>
                         </div>
-                        <time datetime="{{ post.created_at|date:'Y-m-d' }}" class="text-gray-500 dark:text-gray-400 text-sm font-medium tracking-wide transition-colors duration-300">
-                            {{ post.created_at|date:"F d, Y" }}
-                        </time>
+                        
+                        <!-- Date and Dynamic Read Time -->
+                        <div class="flex flex-wrap items-center gap-2 text-gray-500 dark:text-gray-400 text-sm font-medium tracking-wide transition-colors duration-300">
+                            <time datetime="{{ post.created_at|date:'Y-m-d' }}" class="whitespace-nowrap">{{ post.created_at|date:"F d, Y" }}</time>
+                            <span class="hidden sm:inline">&middot;</span>
+                            <span class="inline sm:hidden text-[10px]">&bull;</span>
+                            <span id="read-time-display" class="whitespace-nowrap">Reading...</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 3-Dot Dropdown Menu for Author -->
-                {% if request.user == post.author %}
-                    <div class="relative">
-                        <!-- 3-Dot Button -->
-                        <button id="action-menu-btn" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-gray-500 dark:text-gray-400 focus:outline-none">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
-                            </svg>
+                <!-- 3-Dot Dropdown Menu (Visible to everyone) -->
+                <div class="relative shrink-0">
+                    <!-- 3-Dot Button -->
+                    <button id="action-menu-btn" class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-gray-500 dark:text-gray-400 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown Content -->
+                    <div id="action-menu" class="hidden absolute right-0 mt-2 w-48 rounded-xl bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 shadow-lg z-50 overflow-hidden transition-colors duration-300 origin-top-right">
+                        
+                        <!-- ALWAYS VISIBLE: Share (Copies Link) -->
+                        <!-- Using a generic share icon instead of the link icon to signify sharing -->
+                        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied to clipboard!');" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-left {% if request.user == post.author %}border-b border-black/5 dark:border-white/5{% endif %}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path></svg>
+                            Share
                         </button>
 
-                        <!-- Dropdown Content (Hidden by default) -->
-                        <div id="action-menu" class="hidden absolute right-0 mt-2 w-48 rounded-xl bg-white dark:bg-[#1a1a1a] border border-black/10 dark:border-white/10 shadow-lg z-50 overflow-hidden transition-colors duration-300">
+                        <!-- AUTHOR ONLY VISIBLE: Edit and Delete -->
+                        {% if request.user == post.author %}
                             <a href="{% url 'edit_post' post.id %}" class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                                 Edit Story
@@ -62,13 +77,13 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 Delete Story
                             </a>
-                        </div>
+                        {% endif %}
                     </div>
-                {% endif %}
+                </div>
             </div>
 
             <!-- TITLE -->
-            <h1 class="text-4xl font-black tracking-tight text-black dark:text-white sm:text-5xl md:text-6xl mb-12 leading-[1.15] transition-colors duration-300" style="font-family: 'Merriweather', serif;">
+            <h1 class="text-3xl font-black tracking-tight text-black dark:text-white sm:text-4xl md:text-5xl mb-12 leading-[1.15] transition-colors duration-300" style="font-family: 'Merriweather', serif;">
                 {{ post.title }}
             </h1>
 
@@ -79,8 +94,8 @@
                 </div>
             {% endif %}
 
-            <!-- STORY CONTENT -->
-            <div class="prose max-w-none text-lg leading-relaxed text-gray-800 dark:text-gray-300 space-y-6 transition-colors duration-300" style="font-family: 'Merriweather', serif;">
+            <!-- STORY CONTENT (Added id="article-content" for the JavaScript to read) -->
+            <div id="article-content" class="prose max-w-none text-lg leading-relaxed text-gray-800 dark:text-gray-300 space-y-6 transition-colors duration-300" style="font-family: 'Merriweather', serif;">
                 {{ post.content|linebreaks }}
             </div>
 
@@ -97,9 +112,10 @@
 
     {% include "main/components/__footer.html" %}
 
-    <!-- Script for the 3-Dot Dropdown -->
+    <!-- Scripts -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // 1. Dropdown Logic
             const menuBtn = document.getElementById('action-menu-btn');
             const actionMenu = document.getElementById('action-menu');
 
@@ -116,6 +132,25 @@
                         actionMenu.classList.add('hidden');
                     }
                 });
+            }
+
+            // 2. Read Time Calculator
+            const articleContent = document.getElementById('article-content');
+            const readTimeDisplay = document.getElementById('read-time-display');
+            
+            if(articleContent && readTimeDisplay) {
+                // Get the raw text, remove extra whitespace
+                const text = articleContent.innerText || articleContent.textContent;
+                const wordCount = text.trim().split(/\s+/).length;
+                
+                // Average adult reading speed is ~225 words per minute
+                const wordsPerMinute = 225;
+                const readingTime = Math.ceil(wordCount / wordsPerMinute);
+                
+                // Fallback to 1 min if the article is extremely short
+                const finalTime = readingTime > 0 ? readingTime : 1;
+                
+                readTimeDisplay.textContent = finalTime + " min read";
             }
         });
     </script>

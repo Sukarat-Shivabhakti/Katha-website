@@ -3,6 +3,7 @@ from .views.auth_view import login_method, register_method, logout_method
 from .views.main_view import index_method, add_post_method, profile_method, full_article_method, edit_post_method, delete_post_method, profile_method, about_method, privacy_method, terms_method, edit_profile
 from django.conf import settings             
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 
 
@@ -21,6 +22,26 @@ urlpatterns = [
     path("about/", about_method, name="about"),
     path("privacy/", privacy_method, name="privacy"),
     path("terms/", terms_method, name="terms"),
+    
+    path('password-reset/', 
+         auth_views.PasswordResetView.as_view(
+             template_name='auth/password_reset.html',
+             html_email_template_name='emails/password_reset_email.html',
+             subject_template_name='emails/password_reset_subject.txt'
+         ), 
+         name='password_reset'),
+         
+    path('password-reset/done/', 
+         auth_views.PasswordResetDoneView.as_view(template_name='auth/password_reset_done.html'), 
+         name='password_reset_done'),
+         
+    path('password-reset-confirm/<uidb64>/<token>/', 
+         auth_views.PasswordResetConfirmView.as_view(template_name='auth/password_reset_confirm.html'), 
+         name='password_reset_confirm'),
+         
+    path('password-reset-complete/', 
+         auth_views.PasswordResetCompleteView.as_view(template_name='auth/password_reset_complete.html'), 
+         name='password_reset_complete'),
     
     
 ]

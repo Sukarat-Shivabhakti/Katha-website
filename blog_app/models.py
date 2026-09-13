@@ -23,6 +23,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # likes = models.ManyToManyField(User, related_name='blog_likes', blank=True)
 
 class Profile(models.Model):
     # Links this profile strictly to one user

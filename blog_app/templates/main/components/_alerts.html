@@ -1,0 +1,52 @@
+{% if messages %}
+<div id="toast-container" class="fixed top-24 right-4 sm:right-8 z-[100] flex flex-col gap-3 w-full max-w-sm pointer-events-none">
+    {% for message in messages %}
+        <div class="toast-message pointer-events-auto transform transition-all duration-500 translate-x-full opacity-0 flex items-center p-4 rounded-lg shadow-xl 
+            {% if message.tags == 'error' %} 
+                bg-[#F9F6F0] dark:bg-[#1a1a1a] border-2 border-black dark:border-white text-black dark:text-white
+            {% else %} 
+                bg-black dark:bg-white border-2 border-black dark:border-white text-[#F9F6F0] dark:text-black 
+            {% endif %}">
+            
+            <!-- Sleek Minimalist Icons -->
+            {% if message.tags == 'error' %}
+                <!-- Error: Warning Triangle -->
+                <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            {% else %}
+                <!-- Success: Checkmark -->
+                <svg class="w-5 h-5 mr-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            {% endif %}
+
+            <!-- Uppercase tracking for a premium label look -->
+            <div class="flex-grow font-bold text-xs uppercase tracking-widest">{{ message }}</div>
+            
+            <button onclick="this.parentElement.style.display='none'" class="ml-4 opacity-70 hover:opacity-100 transition-opacity text-xl font-medium focus:outline-none">
+                &times;
+            </button>
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll('.toast-message');
+        
+        // Slide them in smoothly
+        setTimeout(() => {
+            toasts.forEach(toast => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+                toast.classList.add('translate-x-0', 'opacity-100');
+            });
+        }, 100);
+
+        // Slide them out and remove after 4 seconds
+        setTimeout(() => {
+            toasts.forEach(toast => {
+                toast.classList.remove('translate-x-0', 'opacity-100');
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 500); // Wait for animation to finish
+            });
+        }, 4000);
+    });
+</script>
+{% endif %}

@@ -12,32 +12,22 @@
 <body class="bg-[#F9F6F0] dark:bg-[#121212] font-sans min-h-screen flex flex-col text-black dark:text-white transition-colors duration-300">
 
     {% include 'main/components/_navbar.html' %}
+    {% include 'main/components/_alerts.html' %}
 
-    <div class="bg-[#F9F6F0] dark:bg-[#121212] py-12 sm:py-16 flex-grow transition-colors duration-300">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="bg-[#F9F6F0] dark:bg-[#121212] py-12 sm:py-16 flex-grow transition-colors duration-300 {% if not user.is_authenticated %}flex items-center{% endif %}">
+        <div class="mx-auto max-w-7xl px-6 lg:px-8 w-full">
             
-            <!-- Alert Messages -->
-            {% if messages %}
-                <div class="mb-10 mx-auto max-w-3xl lg:mx-0">
-                    {% for message in messages %}
-                        <div class="p-4 rounded-lg text-sm font-bold border-2
-                            {% if message.tags == 'error' %} bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-900/50
-                            {% else %} bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-900/50 {% endif %} transition-colors duration-300">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+            
 
             {% if user.is_authenticated %}
                 
                 <!-- LOGGED IN UI -->
                 <div class="mb-16 border-b-2 border-black/10 dark:border-white/10 pb-12 transition-colors duration-300">
                     <h1 class="text-4xl sm:text-5xl font-black text-black dark:text-white mb-4 leading-tight transition-colors duration-300" style="font-family: 'Merriweather', serif;">
-                        Welcome back, {{ user.username }}.
+                         <span id="dynamic-greeting">Welcome back</span>, {{ user.username }}.
                     </h1>
                     <p class="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-2xl transition-colors duration-300">
-                        Your digital canvas is waiting. What new <span class="font-bold text-black dark:text-white font-serif transition-colors duration-300">कथा.</span> will you share with the world today?
+                        Your digital canvas is waiting. What new <span class="font-bold text-black dark:text-white font-serif transition-colors duration-300">Story</span> will you share with the world today?
                     </p>
                     
                     <div class="flex flex-wrap items-center gap-4">
@@ -51,141 +41,143 @@
                     </div>
                 </div>
 
+                <!-- FEED TITLE & UI FILTERS -->
+                <div id="feed" class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-black dark:border-white/20 pb-4 transition-colors duration-300">
+                    <h3 class="text-xl font-black uppercase tracking-widest text-black dark:text-white shrink-0 transition-colors duration-300">
+                        Community Feed
+                    </h3>
+                    
+                    <!-- ACTIVE UI FILTERS -->
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide w-full sm:w-auto">
+        
+                        <a href="{% url 'index' %}?category=All{% if search_query %}&q={{ search_query }}{% endif %}" 
+                            class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                            {% if current_category == 'All' or not current_category %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            All
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Study{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Study' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Study
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Lifestyle{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Lifestyle' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Lifestyle
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Love{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Love' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Love
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Technology{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Technology' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Technology
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Sports{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Sports' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Sports
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Personal{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Personal' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Personal
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Creative{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Creative' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Creative
+                        </a>
+
+                        <a href="{% url 'index' %}?category=Others{% if search_query %}&q={{ search_query }}{% endif %}" 
+                        class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
+                        {% if current_category == 'Others' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
+                            Others
+                        </a>
+                    </div>
+                </div>
+
+                <!-- BLOG CARDS GRID -->
+                <div class="mx-auto grid max-w-2xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 lg:mx-0 lg:max-w-none">
+                    
+                    {% for post in posts %}
+                        {% include 'main/components/_blog_card.html' %}
+                    {% empty %}
+                        
+                        <div class="col-span-full py-24 text-center border-2 border-dashed border-black/20 dark:border-white/20 rounded-2xl bg-white/50 dark:bg-[#1a1a1a]/50 transition-colors duration-300">
+                            <div class="mx-auto h-16 w-16 mb-4 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center transition-colors duration-300">
+                                <svg class="w-8 h-8 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            </div>
+                            <h3 class="mt-2 text-2xl font-black text-black dark:text-white transition-colors duration-300" style="font-family: 'Merriweather', serif;">No posts yet</h3>
+                            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto transition-colors duration-300">The community feed is currently quiet. Be the very first to share something awesome.</p>
+                            
+                            <a href="{% url 'add_post' %}" class="inline-block rounded-lg bg-black dark:bg-white px-8 py-3 text-base font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+                                Start Writing
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
             {% else %}
                 
-                <!-- LOGGED OUT UI: Floating Aesthetic Text -->
-                <div class="mx-auto max-w-4xl lg:mx-0 mb-24 pt-12">
+                <!-- LOGGED OUT UI: Minimal Landing Page -->
+                <div class="mx-auto max-w-4xl lg:mx-0 text-center sm:text-left">
                     
                     <!-- Small Overline Text -->
-                    <div class="uppercase tracking-widest text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 flex items-center gap-4 transition-colors duration-300">
+                    <div class="uppercase tracking-widest text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 mb-6 flex items-center justify-center sm:justify-start gap-4 transition-colors duration-300">
                         <span class="w-12 h-1 bg-black dark:bg-white block transition-colors duration-300"></span>
                         The Writer's Canvas
                     </div>
                     
-                    <!-- Giant Floating Headline (Seamless & Clean format) -->
+                    <!-- Giant Floating Headline (Broken into exactly 2 lines) -->
                     <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-black dark:text-white leading-[1.1] mb-8 transition-colors duration-300" style="font-family: 'Merriweather', serif;">
                         Where your 
-                        <!-- The seamlessly fading word (Format matches exactly) -->
                         <span id="changing-word" class="inline-block transition-opacity duration-500 ease-in-out opacity-100">
                             thoughts
                         </span> 
-                        <br class="hidden sm:block" /> become Stories.
+                        <br />
+                        become Stories.
                     </h1>
                     
-                    <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-2xl leading-relaxed mb-10 font-medium transition-colors duration-300">
-                        A minimalist, distraction-free space engineered for developers, thinkers, and storytellers to share their unfiltered ideas with the world.
+                    <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 max-w-2xl leading-relaxed mb-10 font-medium transition-colors duration-300 mx-auto sm:mx-0">
+                        Every great idea begins with a story. A clean, distraction-free platform engineered for you to write, read, and share yours.
                     </p>
                     
-                    <!-- Action Buttons -->
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                        <a href="{% url 'register' %}" class="w-full sm:w-auto text-center rounded-lg bg-black dark:bg-white text-[#F9F6F0] dark:text-black px-10 py-4 font-bold text-sm uppercase tracking-widest hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors duration-200">
-                            Start Writing
-                        </a>
-                        <a href="#feed" class="w-full sm:w-auto text-center rounded-lg px-10 py-4 font-bold text-sm uppercase tracking-widest border-2 border-black/20 dark:border-white/20 text-gray-600 dark:text-gray-300 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-colors duration-200">
-                            Explore Feed
+                    <!-- Action Buttons for Logged Out Users -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4">
+                        
+                        <!-- NEW: Aura Glowing Button Wrapper -->
+                        <div class="relative group w-full sm:w-auto">
+                            <!-- The Animated Glow -->
+                            <div class="absolute -inset-1 bg-gradient-to-r from-gray-400 to-gray-800 dark:from-gray-500 dark:to-white rounded-lg blur opacity-50 group-hover:opacity-80 transition duration-500 animate-pulse"></div>
+                            
+                            <!-- The Actual Button -->
+                            <a href="{% url 'register' %}" class="relative block w-full text-center rounded-lg bg-black dark:bg-white text-[#F9F6F0] dark:text-black px-10 py-4 font-bold text-sm uppercase tracking-widest hover:bg-gray-900 dark:hover:bg-gray-100 transition-colors duration-200">
+                                Create Account
+                            </a>
+                        </div>
+
+                        <!-- Secondary Button -->
+                        <a href="{% url 'login' %}" class="w-full sm:w-auto text-center rounded-lg px-10 py-4 font-bold text-sm uppercase tracking-widest border-2 border-black/20 dark:border-white/20 text-gray-600 dark:text-gray-300 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white transition-colors duration-200 bg-white/50 dark:bg-black/50 backdrop-blur-sm relative">
+                            Log In
                         </a>
                     </div>
                 </div>
 
             {% endif %}
-
-            <!-- FEED TITLE & UI FILTERS -->
-            <div id="feed" class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b-2 border-black dark:border-white/20 pb-4 transition-colors duration-300">
-                <h3 class="text-xl font-black uppercase tracking-widest text-black dark:text-white shrink-0 transition-colors duration-300">
-                    {% if user.is_authenticated %}Community Feed{% else %}Latest Stories{% endif %}
-                </h3>
-                
-                <!-- ACTIVE UI FILTERS -->
-                <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide w-full sm:w-auto">
-    
-                <a href="{% url 'index' %}?category=All{% if search_query %}&q={{ search_query }}{% endif %}" 
-                    class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                    {% if current_category == 'All' or not current_category %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    All
-                </a>
-
-                <a href="{% url 'index' %}?category=Study{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Study' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Study
-                </a>
-
-                <a href="{% url 'index' %}?category=Lifestyle{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Lifestyle' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Lifestyle
-                </a>
-
-                <a href="{% url 'index' %}?category=Love{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Love' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Love
-                </a>
-
-                <a href="{% url 'index' %}?category=Technology{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Technology' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Technology
-                </a>
-
-                <a href="{% url 'index' %}?category=Sports{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Sports' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Sports
-                </a>
-
-                <a href="{% url 'index' %}?category=Personal{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Personal' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Personal
-                </a>
-
-                <a href="{% url 'index' %}?category=Creative{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Creative' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Creative
-                </a>
-
-                <a href="{% url 'index' %}?category=Others{% if search_query %}&q={{ search_query }}{% endif %}" 
-                class="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-colors
-                {% if current_category == 'Others' %} bg-black text-[#F9F6F0] dark:bg-white dark:text-black {% else %} border border-black/20 text-gray-600 hover:border-black hover:text-black dark:border-white/20 dark:text-gray-400 dark:hover:text-white dark:hover:border-white {% endif %}">
-                    Others
-                </a>
-                </div>
-            </div>
-
-            <!-- BLOG CARDS GRID -->
-            <div class="mx-auto grid max-w-2xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 lg:mx-0 lg:max-w-none">
-                
-                {% for post in posts %}
-                    {% include 'main/components/_blog_card.html' %}
-                {% empty %}
-                    
-                    <!-- Dark mode applied to empty state -->
-                    <div class="col-span-full py-24 text-center border-2 border-dashed border-black/20 dark:border-white/20 rounded-2xl bg-white/50 dark:bg-[#1a1a1a]/50 transition-colors duration-300">
-                        <div class="mx-auto h-16 w-16 mb-4 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center transition-colors duration-300">
-                            <svg class="w-8 h-8 text-black/40 dark:text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                        </div>
-                        <h3 class="mt-2 text-2xl font-black text-black dark:text-white transition-colors duration-300" style="font-family: 'Merriweather', serif;">No posts yet</h3>
-                        <p class="mt-2 text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-md mx-auto transition-colors duration-300">The community feed is currently quiet. Be the very first to share something awesome.</p>
-                        
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'add_post' %}" class="inline-block rounded-lg bg-black dark:bg-white px-8 py-3 text-base font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
-                                Start Writing
-                            </a>
-                        {% else %}
-                            <a href="{% url 'login' %}?next=/add-post/" class="inline-block rounded-lg bg-black dark:bg-white px-8 py-3 text-base font-bold text-white dark:text-black shadow-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
-                                Login to Start Writing
-                            </a>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-
-            </div> 
             
         </div>
     </div>
-
     {% if user.is_authenticated %}
         {% include "main/components/__footer.html" %}
     {% else %}
@@ -195,9 +187,9 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({
-            duration: 800,        // 0.8 seconds to complete (buttery slow glide)
+            duration: 800,        // 0.8 seconds to complete
             easing: 'ease-out-cubic', // The "premium" physics curve
-            once: true,           // Only animate once so it isn't distracting if they scroll up
+            once: true,           // Only animate once
             offset: 50,           // Trigger slightly before the card is fully in view
         });
     </script>
@@ -227,6 +219,31 @@
                     }, 500); // 500ms matches the CSS transition duration
                     
                 }, 3000); // Swaps to a new word every 3 seconds
+            }
+        });
+    </script>
+
+
+        <!-- Dynamic Time-Based Greeting Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const greetingElement = document.getElementById("dynamic-greeting");
+            
+            if (greetingElement) {
+                const currentHour = new Date().getHours();
+                let greeting = "Welcome back"; // Fallback
+
+                if (currentHour >= 5 && currentHour < 12) {
+                    greeting = "Good morning";
+                } else if (currentHour >= 12 && currentHour < 17) {
+                    greeting = "Good afternoon";
+                } else if (currentHour >= 17 && currentHour < 22) {
+                    greeting = "Good evening";
+                } else {
+                    greeting = "Late night writing"; // For hours 22:00 to 04:59
+                }
+
+                greetingElement.textContent = greeting;
             }
         });
     </script>
